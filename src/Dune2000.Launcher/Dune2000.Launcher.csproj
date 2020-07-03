@@ -1,0 +1,686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{422E93D1-72B3-4242-AC2A-A9213DF9D9E4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Dune2000.Launcher</RootNamespace>
+    <AssemblyName>Dune2000Launcher</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Dune2000.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastBitmapLib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastBitmapLib.2.0.0\lib\net452\FastBitmapLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Primrose, Version=0.0.7487.1209, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Primrose.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Engine\AudioEngine.cs" />
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Enums.cs" />
+    <Compile Include="UI\EventDelegates.cs" />
+    <Compile Include="UI\Forms\PopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\PopupForm.Designer.cs">
+      <DependentUpon>PopupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Interfaces.cs" />
+    <Compile Include="UI\Objects\SpriteBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Objects\SpriteBox.Designer.cs">
+      <DependentUpon>SpriteBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UIPipeline.cs" />
+    <Compile Include="UI\UIPipedObject.cs" />
+    <Compile Include="UI\Objects\FadePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Objects\FadePanel.Designer.cs">
+      <DependentUpon>FadePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignSelectionScreen2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignSelectionScreen2.Designer.cs">
+      <DependentUpon>CampaignSelectionScreen2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\GameRunningScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\GameRunningScreen.Designer.cs">
+      <DependentUpon>GameRunningScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\KeyNavigationHelpScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\KeyNavigationHelpScreen.Designer.cs">
+      <DependentUpon>KeyNavigationHelpScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls_Popup\LoadingScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls_Popup\LoadingScreen.Designer.cs">
+      <DependentUpon>LoadingScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls_Popup\ErrorScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls_Popup\ErrorScreen.Designer.cs">
+      <DependentUpon>ErrorScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\MainMenuScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\MainMenuScreen.Designer.cs">
+      <DependentUpon>MainMenuScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\ConfigurationScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ConfigurationScreen.Designer.cs">
+      <DependentUpon>ConfigurationScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignSelectionScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignSelectionScreen.Designer.cs">
+      <DependentUpon>CampaignSelectionScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignMissionSelectionScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\CampaignMissionSelectionScreen.Designer.cs">
+      <DependentUpon>CampaignMissionSelectionScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\MissionSelectionScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\MissionSelectionScreen.Designer.cs">
+      <DependentUpon>MissionSelectionScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\MissionBriefingScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\MissionBriefingScreen.Designer.cs">
+      <DependentUpon>MissionBriefingScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\PreviewKeyUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\PreviewKeyUserControl.Designer.cs">
+      <DependentUpon>PreviewKeyUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\Cascade.cs" />
+    <Compile Include="Util\DrawingExt.cs" />
+    <Compile Include="Util\DrawingControlExt.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\PopupForm.resx">
+      <DependentUpon>PopupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Objects\SpriteBox.resx">
+      <DependentUpon>SpriteBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Objects\FadePanel.resx">
+      <DependentUpon>FadePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\CampaignSelectionScreen2.resx">
+      <DependentUpon>CampaignSelectionScreen2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\GameRunningScreen.resx">
+      <DependentUpon>GameRunningScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\KeyNavigationHelpScreen.resx">
+      <DependentUpon>KeyNavigationHelpScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls_Popup\LoadingScreen.resx">
+      <DependentUpon>LoadingScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls_Popup\ErrorScreen.resx">
+      <DependentUpon>ErrorScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\MainMenuScreen.resx">
+      <DependentUpon>MainMenuScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\ConfigurationScreen.resx">
+      <DependentUpon>ConfigurationScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\CampaignSelectionScreen.resx">
+      <DependentUpon>CampaignSelectionScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\CampaignMissionSelectionScreen.resx">
+      <DependentUpon>CampaignMissionSelectionScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\MissionSelectionScreen.resx">
+      <DependentUpon>MissionSelectionScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\MissionBriefingScreen.resx">
+      <DependentUpon>MissionBriefingScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Dune2000\Dune2000.csproj">
+      <Project>{839b1b23-89b2-4ea1-9d97-c44da87baa9f}</Project>
+      <Name>Dune2000</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ART_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ART_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AT_SCORE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATBUTT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATRE_POINT.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AUP_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AUP_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AUP_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX1.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX2.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX2A.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX3.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX4.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX5.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX6.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX7.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX9.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX10.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOX11.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BRIEFING.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT1_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT1_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT2_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT2_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT3_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT3_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT4_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT4_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT5_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT5_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT6_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT6_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT7_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT7_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT8_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT8_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN1_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN1_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN8_DN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN8_UP.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CANCEL.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CROSS.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DIFFICULTY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNE_L_EYE.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNE_R_EYE.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNEMAP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNEMAP2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EASY_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EASY_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FIND_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FIND_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HACCT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HAND1.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HAND2.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HAND3.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HARD_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HARD_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HARKONNEN.ini" />
+    <None Include="Resources\ATREIDES.ini" />
+    <None Include="Resources\ORDOS.ini" />
+    <None Include="Resources\HARK_POINT.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HK_SCORE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HKBUTT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INPUT_BOX.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\INPUT_OK_BOX.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOAD.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOADGAME.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOOP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NORMAL_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NORMAL_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OACCT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OD_SCORE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ORBUTT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ORDO_POINT.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PICTBOOK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RB_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RB_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RBACK_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RBACK_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RBACK_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RMORE_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RMORE_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RMORE_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SAVE.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCOREMP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SCOREUI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TICK.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TITLE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WOLLOB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WOLLOBY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WWLOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ADN_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ADN_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ADN_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ALT_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ALT_DS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ALT_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ART_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EMPTY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT9_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT9_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN9_DN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTN9_UP.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BACK_DIS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BACK_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BACK_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LEAV_DIS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LEAV_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LEAV_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SPICE.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SPICE_BG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MULTIUI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REFR_DIS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REFR_DN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REFR_UP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUT9_SEL.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHADE_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHADE_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHADE_75.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNETERRITORY.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNETERRITORY_AT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNETERRITORY_HK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DUNETERRITORY_OD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dune2000.ico" />
+    <None Include="Resources\OPS_UP.png" />
+    <None Include="Resources\OPS_DN.png" />
+    <None Include="Resources\OPS_DIS.png" />
+    <None Include="Resources\WBUT_UP.BMP" />
+    <None Include="Resources\WBUT_DN.BMP" />
+    <None Include="Resources\WBUT_DIS.BMP" />
+    <None Include="Resources\CAMPAIGN_SELECT.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>cd $(ProjectDir)
+xcopy ..\deploy $(OutDir) /s /e /r /y</PreBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{839B1B23-89B2-4EA1-9D97-C44DA87BAA9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dune2000</RootNamespace>
+    <AssemblyName>Dune2000</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\prebuild\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\prebuild\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\prebuild\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\prebuild\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\prebuild\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\prebuild\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Primrose, Version=0.0.7487.1209, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Primrose.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Enums\FadeAction.cs" />
+    <Compile Include="Extensions\FileFormats\Bin\RegionPolygonBinFile.cs" />
+    <Compile Include="Extensions\FileFormats\INI\CampaignFile.cs" />
+    <Compile Include="Extensions\FileFormats\INI\ModFile.cs" />
+    <Compile Include="Extensions\FileFormats\INI\PlayerRecordFile.cs" />
+    <Compile Include="Extensions\FileFormats\INI\LauncherSettingsFile.cs" />
+    <Compile Include="Extensions\Missions\MissionIdentifier.cs" />
+    <Compile Include="Extensions\Missions\MissionInfo.cs" />
+    <Compile Include="Extensions\Missions\MissionSet.cs" />
+    <Compile Include="Extensions\Missions\MissionSourceInfo.cs" />
+    <Compile Include="Extensions\Modifiers\Map\MapModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\Map\Map_ObjectReplacementModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\Map\Map_TileReplacementModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\MisActionModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_HouseActionModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_HouseDiplomacyModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_MapRevealModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_MissionMessageModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_PlayMusicModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_PlaySoundModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_ReinforcementActionModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_SetFlagModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_SetHouseAttributeModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_TimerStartModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_TimerStopModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisAction\Mis_TriggerMissionStateModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\MisConditionModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_DoesBuildingExistModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_DoesUnitExistModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_FlagModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_HarvestedSpice.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_HasCasualitiesModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_IsDestroyedModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_IsIntervalReachedModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_IsTileRevealedModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\MisCondition\Mis_IsTimerReachedModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\Mod\ModEntry.cs" />
+    <Compile Include="Extensions\Modifiers\Mod\MapModInfo.cs" />
+    <Compile Include="Extensions\Modifiers\Mod\MisActionModInfo.cs" />
+    <Compile Include="Extensions\Modifiers\Mod\MisConditionModInfo.cs" />
+    <Compile Include="Extensions\Modifiers\Mod\Mod.cs" />
+    <Compile Include="Extensions\Mount\Mount.cs" />
+    <Compile Include="Extensions\Mount\MountErrorType.cs" />
+    <Compile Include="Extensions\Mount\MountResult.cs" />
+    <Compile Include="FileFormats\Uib\ColourUibFile.cs" />
+    <Compile Include="Resource\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="FileFormats\Map\MapFile.cs" />
+    <Compile Include="Extensions\Structs\Bin\RegionPolygonData.cs" />
+    <Compile Include="Structs\Mis\MisAction.cs" />
+    <Compile Include="Structs\Mis\MisAI.cs" />
+    <Compile Include="Structs\Mis\MisCondition.cs" />
+    <Compile Include="Structs\Mis\MisDiplomacy.cs" />
+    <Compile Include="FileFormats\Mis\MisFile.cs" />
+    <Compile Include="Structs\Uib\CampaignUib\CampaignHouseData.cs" />
+    <Compile Include="Structs\Uib\CampaignUib\CampaignMissionData.cs" />
+    <Compile Include="FileFormats\Uib\CampaignUib\CampaignUibFile.cs" />
+    <Compile Include="Structs\Uib\MenusUib\MenusUibData.cs" />
+    <Compile Include="Util\EndiannessAwareBinaryReader.cs" />
+    <Compile Include="Enums\Allegiance.cs" />
+    <Compile Include="Enums\Building.cs" />
+    <Compile Include="Enums\Compare.cs" />
+    <Compile Include="Enums\ConditionType.cs" />
+    <Compile Include="Enums\Difficulty.cs" />
+    <Compile Include="Enums\EventType.cs" />
+    <Compile Include="Enums\EventUnitMission.cs" />
+    <Compile Include="Enums\House.cs" />
+    <Compile Include="Enums\BuildingType.cs" />
+    <Compile Include="Enums\TileDataType.cs" />
+    <Compile Include="Enums\UnitType.cs" />
+    <Compile Include="Enums\Unit.cs" />
+    <Compile Include="FileFormats\INI\MapRulesFile.cs" />
+    <Compile Include="FileFormats\INI\SpawnerFile.cs" />
+    <Compile Include="Structs\Statistics\HouseStats.cs" />
+    <Compile Include="Structs\Statistics\StatInfo.cs" />
+    <Compile Include="FileFormats\Statistics\StatsFile.cs" />
+    <Compile Include="Structs\TileData\TileDataElement.cs" />
+    <Compile Include="FileFormats\TileData\TileDataFile.cs" />
+    <Compile Include="FileFormats\Uib\MenusUibFile.cs" />
+    <Compile Include="FileFormats\Uib\TextUibFile.cs" />
+    <Compile Include="FileFormats\Uib\UibEntry.cs" />
+    <Compile Include="FileFormats\Uib\UibFileBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FileFormats\R16\" />
+    <Folder Include="FileFormats\TileAtr\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
