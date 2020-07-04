@@ -135,6 +135,7 @@
     <Compile Include="Extensions\Mount\Mount.cs" />
     <Compile Include="Extensions\Mount\MountErrorType.cs" />
     <Compile Include="Extensions\Mount\MountResult.cs" />
+    <Compile Include="FileFormats\R16\ResourceFile.cs" />
     <Compile Include="FileFormats\Uib\ColourUibFile.cs" />
     <Compile Include="Resource\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
@@ -148,6 +149,7 @@
     <Compile Include="Structs\Mis\MisCondition.cs" />
     <Compile Include="Structs\Mis\MisDiplomacy.cs" />
     <Compile Include="FileFormats\Mis\MisFile.cs" />
+    <Compile Include="Structs\R16\ResourceElement.cs" />
     <Compile Include="Structs\Uib\CampaignUib\CampaignHouseData.cs" />
     <Compile Include="Structs\Uib\CampaignUib\CampaignMissionData.cs" />
     <Compile Include="FileFormats\Uib\CampaignUib\CampaignUibFile.cs" />
@@ -179,7 +181,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FileFormats\R16\" />
     <Folder Include="FileFormats\TileAtr\" />
   </ItemGroup>
   <ItemGroup>

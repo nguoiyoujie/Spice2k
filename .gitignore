@@ -7,6 +7,9 @@
 **/*.vshost.exe.config
 **/*.vshost.exe.manifest
 
+/build/debug/config.ini
+/build/release/config.ini
+
 /doc/editable
 
 /src/prebuild

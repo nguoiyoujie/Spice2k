@@ -1,4 +1,5 @@
-﻿using Dune2000.Launcher.UI.Forms;
+﻿using Dune2000.FileFormats.R16;
+using Dune2000.Launcher.UI.Forms;
 using Primrose.Primitives.Extensions;
 using System;
 using System.Windows.Forms;
@@ -15,6 +16,12 @@ namespace Dune2000.Launcher
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
+
+      //ResourceFile resfile = new ResourceFile();
+      //resfile.ReadFromFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA.R16");
+      //resfile.WriteToFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA_write.R8");
+      //resfile.ReadFromFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA_write.R8");
+
 
       try
       {
