@@ -90,8 +90,10 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SpeedType.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\FadeAction.cs" />
+    <Compile Include="Enums\ArmorType.cs" />
     <Compile Include="Extensions\FileFormats\Bin\RegionPolygonBinFile.cs" />
     <Compile Include="Extensions\FileFormats\INI\CampaignFile.cs" />
     <Compile Include="Extensions\FileFormats\INI\ModFile.cs" />
@@ -135,6 +137,8 @@
     <Compile Include="Extensions\Mount\Mount.cs" />
     <Compile Include="Extensions\Mount\MountErrorType.cs" />
     <Compile Include="Extensions\Mount\MountResult.cs" />
+    <Compile Include="FileFormats\Bin\PaletteFile.cs" />
+    <Compile Include="FileFormats\Bin\TemplatesFile.cs" />
     <Compile Include="FileFormats\R16\ResourceFile.cs" />
     <Compile Include="FileFormats\Uib\ColourUibFile.cs" />
     <Compile Include="Resource\Strings.Designer.cs">
@@ -144,6 +148,11 @@
     </Compile>
     <Compile Include="FileFormats\Map\MapFile.cs" />
     <Compile Include="Extensions\Structs\Bin\RegionPolygonData.cs" />
+    <Compile Include="Structs\Bin\Templates\ExplosionTemplate.cs" />
+    <Compile Include="Structs\Bin\Templates\ArtTemplate.cs" />
+    <Compile Include="Structs\Bin\Templates\WeaponTemplate.cs" />
+    <Compile Include="Structs\Bin\Templates\BuildingTemplate.cs" />
+    <Compile Include="Structs\Bin\Templates\UnitTemplate.cs" />
     <Compile Include="Structs\Mis\MisAction.cs" />
     <Compile Include="Structs\Mis\MisAI.cs" />
     <Compile Include="Structs\Mis\MisCondition.cs" />
