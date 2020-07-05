@@ -1,11 +1,9 @@
-﻿using Primrose.Primitives.Extensions;
+﻿using Dune2000.Structs.Pal;
+using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Dune2000.Structs.R16
 {
@@ -22,31 +20,36 @@ namespace Dune2000.Structs.R16
     // An image sits within this frame, at an offset [ImageOffset] and with its own size [ImageSize].
     // ... unless this is an empty entry, then the whole element is represented by a single zero byte.
 
-    public PaletteType PaletteType; // likely an enum for something
+    public PaletteType PaletteType;
     public int ImageWidth;
     public int ImageHeight;
     public int ImageOffsetX;
     public int ImageOffsetY;
     public int ImageHandle;   // function unknown
     public int PaletteHandle; // function unknown
+
     public byte BitsPerPixel;
     public byte FrameWidth;
     public byte FrameHeight;
     public byte Alignment; // function unknown
     public byte[] ImageData;
-    public ResPalette Palette;
+
+    // for resources that include their own palette
+    public int Memory; // function unknown
+    public int PaletteHandle2;// function unknown
+    public Palette_15Bit Palette;
 
     public bool IsEmpty { get { return PaletteType == PaletteType.EMPTY_ENTRY; } }
     public int2 ImageSize { get { return new int2(ImageWidth, ImageHeight); } set { ImageWidth = value.x; ImageHeight = value.y; } }
     public int2 ImageOffset { get { return new int2(ImageOffsetX, ImageOffsetY); } set { ImageOffsetX = value.x; ImageOffsetY = value.y; } }
     public byte2 FrameSize { get { return new byte2(FrameWidth, FrameHeight); } set { FrameWidth = value.x; FrameHeight = value.y; } }
 
-    public void Read(BinaryReader reader, ref ResPalette currentPalette)
+    public void Read(BinaryReader reader, ref Palette_15Bit currentPalette)
     {
       PaletteType = (PaletteType)reader.ReadByte();
       if (PaletteType == PaletteType.EMPTY_ENTRY)
       {
-        // no data. All else is irrelevant.
+        // no data. All else is irrelevant. The whole resource is 1 byte of zero.
         return;
       }
 
@@ -82,13 +85,19 @@ namespace Dune2000.Structs.R16
         throw new InvalidDataException("Unexpected bits per pixel! (Value = {0})".F(BitsPerPixel));
       }
 
-      if (BitsPerPixel == 8)
+      if (PaletteHandle == 0)
       {
-        if (PaletteHandle != 0) // seen from the old editor, is this needed?
+        // use the base palette?
+      }
+      else
+      {
+        if (BitsPerPixel == 8)
         {
           switch (PaletteType)
           {
             case PaletteType.NEW_PALETTE:
+              Memory = reader.ReadInt32();
+              PaletteHandle2 = reader.ReadInt32();
               currentPalette.Read(reader);
               break;
 
@@ -96,11 +105,11 @@ namespace Dune2000.Structs.R16
               break;
           }
         }
+        Palette = currentPalette;
       }
-      Palette = currentPalette;
     }
 
-    public void Write(BinaryWriter writer, ref ResPalette prevPalette)
+    public void Write(BinaryWriter writer, ref Palette_15Bit prevPalette)
     {
       if (PaletteType == PaletteType.EMPTY_ENTRY)
       {
@@ -109,7 +118,12 @@ namespace Dune2000.Structs.R16
         return;
       }
 
-      if (prevPalette.Equals(Palette)) 
+      if (PaletteHandle == 0)
+      {
+        // base palette, just set the type and don't write another palette data in
+        PaletteType = PaletteType.NEW_PALETTE;
+      }
+      else if (prevPalette.Equals(Palette)) 
       { 
         PaletteType = PaletteType.USE_PREVIOUS;
       }
@@ -138,7 +152,7 @@ namespace Dune2000.Structs.R16
       }
     }
 
-    public Bitmap Draw(bool includeFrame, bool makeTransparent)
+    public Bitmap GetBitmap(ref IPalette basePalette, bool includeFrame, bool makeTransparent)
     {
       if (PaletteType == PaletteType.EMPTY_ENTRY)
       {
@@ -152,22 +166,26 @@ namespace Dune2000.Structs.R16
 
       if (BitsPerPixel == 8)
       {
+        IPalette pal = (PaletteHandle == 0) ? basePalette : Palette;
+
         for (int x = 0; x < ImageWidth; x++)
           for (int y = 0; y < ImageHeight; y++)
           {
             int pos = x + y * ImageWidth;
             byte data8 = ImageData[pos];
-            bmp.SetPixel(x, y, Palette.Get(data8));
+
+            bmp.SetPixel(x, y, pal.Get(data8));
           }
       }
       else if (BitsPerPixel == 16)
       {
+        // doesn't care about palettes, as its image data is direct color
         for (int x = 0; x < ImageWidth; x++)
           for (int y = 0; y < ImageHeight; y++)
           {
             int pos = (x + y * ImageWidth) * 2;
             ushort data16 = BitConverter.ToUInt16(ImageData, pos);
-            bmp.SetPixel(x, y, ResPalette.ConvertColor(data16));
+            bmp.SetPixel(x, y, Palette_15Bit.ConvertColor(data16));
           }
       }
       else
@@ -192,64 +210,6 @@ namespace Dune2000.Structs.R16
       {
         return bmp;
       }
-    }
-  }
-
-  public unsafe struct ResPalette
-  {
-    // each color represented by a 16-bit integer.
-    public int Memory; //?
-    public int PaletteHandle; //?
-    private fixed ushort Data[256];
-
-    public void Read(BinaryReader reader)
-    {
-      int count = Marshal.SizeOf(typeof(ResPalette));
-      byte[] readBuffer = reader.ReadBytes(count);
-      GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
-      this = (ResPalette)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(ResPalette));
-      handle.Free();
-    }
-
-    public void Write(BinaryWriter writer)
-    {
-      int count = Marshal.SizeOf(typeof(ResPalette));
-      byte[] writeBuffer = new byte[count];
-      GCHandle handle = GCHandle.Alloc(writeBuffer, GCHandleType.Pinned);
-      Marshal.StructureToPtr(this, handle.AddrOfPinnedObject(), true);
-      writer.Write(writeBuffer, 0, writeBuffer.Length);
-      handle.Free();
-    }
-
-    public Color Get(int index)
-    {
-      return ConvertColor(Data[index]);
-    }
-
-    public void Set(int index, Color color)
-    {
-      Data[index] = ConvertColor(color);
-    }
-
-    // 16 bit stored as ?RRRRRGGGGGBBBBB
-    public static Color ConvertColor(ushort colour)
-    {
-      byte r = (byte)(colour >> 10 & 31);
-      byte g = (byte)(colour >> 5 & 31);
-      byte b = (byte)(colour & 31);
-      r = Convert.ToByte(255f * r / 31f);
-      g = Convert.ToByte(255f * g / 31f);
-      b = Convert.ToByte(255f * b / 31f);
-      return Color.FromArgb(r, g, b);
-    }
-
-    public static ushort ConvertColor(Color colour)
-    {
-      int r = (int)(colour.R / 255f * 31f) << 10;
-      int g = (int)(colour.G / 255f * 31f) << 5;
-      int b = (int)(colour.B / 255f * 31f);
-      int value = r | g | b;
-      return Convert.ToUInt16(value);
     }
   }
 }

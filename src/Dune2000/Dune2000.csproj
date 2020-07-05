@@ -149,6 +149,10 @@
     <Compile Include="Structs\Mis\MisCondition.cs" />
     <Compile Include="Structs\Mis\MisDiplomacy.cs" />
     <Compile Include="FileFormats\Mis\MisFile.cs" />
+    <Compile Include="Structs\Pal\IPalette.cs" />
+    <Compile Include="Structs\Pal\Palette_24Bit_64.cs" />
+    <Compile Include="Structs\Pal\Palette_24Bit.cs" />
+    <Compile Include="Structs\Pal\Palette_15Bit.cs" />
     <Compile Include="Structs\R16\ResourceElement.cs" />
     <Compile Include="Structs\Uib\CampaignUib\CampaignHouseData.cs" />
     <Compile Include="Structs\Uib\CampaignUib\CampaignMissionData.cs" />

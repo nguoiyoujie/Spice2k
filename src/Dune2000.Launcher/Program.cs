@@ -18,7 +18,7 @@ namespace Dune2000.Launcher
       Application.SetCompatibleTextRenderingDefault(false);
 
       //ResourceFile resfile = new ResourceFile();
-      //resfile.ReadFromFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA.R16");
+      //resfile.ReadFromFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA.R8");
       //resfile.WriteToFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA_write.R8");
       //resfile.ReadFromFile(@"C:\Program Files (x86)\Gruntmods Studios\Dune 2000\data\DATA_write.R8");
 
