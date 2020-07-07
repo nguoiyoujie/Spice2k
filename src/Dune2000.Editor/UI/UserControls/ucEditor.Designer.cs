@@ -184,7 +184,7 @@
             this.tstbSearch,
             this.tsmiSearchPrev,
             this.tsmiSearchNext});
-      this.menuSearchBar.Location = new System.Drawing.Point(0, 40);
+      this.menuSearchBar.Location = new System.Drawing.Point(0, 60);
       this.menuSearchBar.Name = "menuSearchBar";
       this.menuSearchBar.Size = new System.Drawing.Size(789, 27);
       this.menuSearchBar.TabIndex = 3;
@@ -233,23 +233,25 @@
       // 
       // lblFileName
       // 
-      this.lblFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.lblFileName.Location = new System.Drawing.Point(335, 0);
+      this.lblFileName.BackColor = System.Drawing.SystemColors.MenuHighlight;
+      this.lblFileName.Dock = System.Windows.Forms.DockStyle.Top;
+      this.lblFileName.ForeColor = System.Drawing.Color.White;
+      this.lblFileName.Location = new System.Drawing.Point(0, 40);
       this.lblFileName.Name = "lblFileName";
-      this.lblFileName.Size = new System.Drawing.Size(454, 25);
+      this.lblFileName.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+      this.lblFileName.Size = new System.Drawing.Size(789, 20);
       this.lblFileName.TabIndex = 4;
-      this.lblFileName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.lblFileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // ucEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Controls.Add(this.lblFileName);
       this.Controls.Add(this.menuSearchBar);
+      this.Controls.Add(this.lblFileName);
       this.Controls.Add(this.menuStrip1);
       this.Name = "ucEditor";
-      this.Size = new System.Drawing.Size(789, 536);
+      this.Size = new System.Drawing.Size(789, 116);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       this.menuSearchBar.ResumeLayout(false);

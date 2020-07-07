@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="DcKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DcValue.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Text uib files (text.uib or text{...}.uib) and some other uib files (samples.uib) store game text information as key-value combinations. The game provides a key, this table returns the string mapped to this key.</value>
+  <data name="label23.Text" xml:space="preserve">
+    <value>The templates binary data file (templates.bin) stores important information for the game to link various assets and attributes to each game object. The data contained within includes information for Units, Buildings, Weapons, Explosions, Art and Animations. To make fully use of this editor, you should connect this section with other files, as listed in the buttons below:</value>
   </data>
 </root>

@@ -102,7 +102,28 @@
     <Compile Include="UI\Forms\MainEditor.Designer.cs">
       <DependentUpon>MainEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\IEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Objects\ResourcePreview.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Objects\DataColorCell.cs" />
+    <Compile Include="UI\Objects\ExtendedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ucResourceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ucResourceEditor.Designer.cs">
+      <DependentUpon>ucResourceEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\ucTemplatesBinEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ucTemplatesBinEditor.Designer.cs">
+      <DependentUpon>ucTemplatesBinEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\ucCampaignUibEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +172,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\MainEditor.resx">
       <DependentUpon>MainEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\ucResourceEditor.resx">
+      <DependentUpon>ucResourceEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\ucTemplatesBinEditor.resx">
+      <DependentUpon>ucTemplatesBinEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\ucCampaignUibEditor.resx">
       <DependentUpon>ucCampaignUibEditor.cs</DependentUpon>
@@ -207,6 +236,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Previous_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Add_32x32.png" />
+    <None Include="Resources\Tile.png" />
+    <None Include="Resources\Subtract_32x32.png" />
+    <None Include="Resources\Down_32x32.png" />
+    <None Include="Resources\Up_32x32.png" />
+    <None Include="Resources\Edit_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

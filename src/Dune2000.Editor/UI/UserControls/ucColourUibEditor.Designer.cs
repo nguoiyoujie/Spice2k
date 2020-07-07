@@ -1,4 +1,6 @@
-﻿namespace Dune2000.Editor.UI.UserControls
+﻿using Dune2000.Editor.UI.Objects;
+
+namespace Dune2000.Editor.UI.UserControls
 {
   partial class ucColourUibEditor
   {
@@ -31,7 +33,7 @@
       this.dColor = new System.Windows.Forms.ColorDialog();
       this.DcColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.DcKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.dgvTable = new System.Windows.Forms.DataGridView();
+      this.dgvTable = new ExtendedDataGridView();
       this.panel1 = new System.Windows.Forms.Panel();
       this.panel2 = new System.Windows.Forms.Panel();
       this.label2 = new System.Windows.Forms.Label();
@@ -139,7 +141,7 @@
     private System.Windows.Forms.ColorDialog dColor;
     private System.Windows.Forms.DataGridViewTextBoxColumn DcColor;
     private System.Windows.Forms.DataGridViewTextBoxColumn DcKey;
-    private System.Windows.Forms.DataGridView dgvTable;
+    private ExtendedDataGridView dgvTable;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.Panel panel2;
     private System.Windows.Forms.Label label2;

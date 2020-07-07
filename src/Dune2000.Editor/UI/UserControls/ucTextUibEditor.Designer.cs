@@ -1,4 +1,7 @@
-﻿namespace Dune2000.Editor.UI.UserControls
+﻿using Dune2000.Editor.UI.Objects;
+using System.Windows.Forms;
+
+namespace Dune2000.Editor.UI.UserControls
 {
   partial class ucTextUibEditor
   {
@@ -28,7 +31,8 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.dgvTable = new System.Windows.Forms.DataGridView();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucTextUibEditor));
+      this.dgvTable = new ExtendedDataGridView();
       this.DcKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.DcValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.panel1 = new System.Windows.Forms.Panel();
@@ -42,8 +46,8 @@
       // 
       // dgvTable
       // 
-      this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dgvTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+      this.dgvTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dgvTable.Columns.AddRange(new DataGridViewColumn[] {
             this.DcKey,
             this.DcValue});
       this.dgvTable.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -51,20 +55,20 @@
       this.dgvTable.Name = "dgvTable";
       this.dgvTable.Size = new System.Drawing.Size(789, 429);
       this.dgvTable.TabIndex = 0;
-      this.dgvTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTable_CellValueChanged);
+      this.dgvTable.CellValueChanged += new DataGridViewCellEventHandler(this.DgvTable_CellValueChanged);
       // 
       // DcKey
       // 
       this.DcKey.HeaderText = "Key";
       this.DcKey.Name = "DcKey";
-      this.DcKey.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.DcKey.SortMode = DataGridViewColumnSortMode.NotSortable;
       // 
       // DcValue
       // 
-      this.DcValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.DcValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
       this.DcValue.HeaderText = "Value";
       this.DcValue.Name = "DcValue";
-      this.DcValue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.DcValue.SortMode = DataGridViewColumnSortMode.NotSortable;
       // 
       // panel1
       // 
@@ -84,9 +88,7 @@
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(620, 30);
       this.label1.TabIndex = 0;
-      this.label1.Text = "Text uib files (text.uib or text{...}.uib) store game text information as key-val" +
-    "ue combinations. The game provides a key, this table returns the string mapped t" +
-    "o this key.";
+      this.label1.Text = resources.GetString("label1.Text");
       // 
       // panel2
       // 
@@ -127,7 +129,7 @@
 
     #endregion
 
-    private System.Windows.Forms.DataGridView dgvTable;
+    private ExtendedDataGridView dgvTable;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.DataGridViewTextBoxColumn DcKey;
     private System.Windows.Forms.DataGridViewTextBoxColumn DcValue;

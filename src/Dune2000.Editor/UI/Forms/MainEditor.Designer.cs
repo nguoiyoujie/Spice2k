@@ -28,37 +28,40 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.tcMain = new System.Windows.Forms.TabControl();
+      this.tcEditorTabs = new System.Windows.Forms.TabControl();
       this.tpTextUib = new System.Windows.Forms.TabPage();
-      this.ucTextUibEditor1 = new Dune2000.Editor.UI.UserControls.ucTextUibEditor();
       this.tpColourUib = new System.Windows.Forms.TabPage();
-      this.ucColourUibEditor1 = new Dune2000.Editor.UI.UserControls.ucColourUibEditor();
       this.tpMenuUib = new System.Windows.Forms.TabPage();
-      this.ucMenusUibEditor1 = new Dune2000.Editor.UI.UserControls.ucMenusUibEditor();
       this.tpCampaignUib = new System.Windows.Forms.TabPage();
+      this.ucTextUibEditor1 = new Dune2000.Editor.UI.UserControls.ucTextUibEditor();
+      this.ucColourUibEditor1 = new Dune2000.Editor.UI.UserControls.ucColourUibEditor();
+      this.ucMenusUibEditor1 = new Dune2000.Editor.UI.UserControls.ucMenusUibEditor();
       this.ucCampaignUibEditor1 = new Dune2000.Editor.UI.UserControls.ucCampaignUibEditor();
-      this.label1 = new System.Windows.Forms.Label();
-      this.tcMain.SuspendLayout();
+      this.ucEditorController = new Dune2000.Editor.UI.UserControls.ucEditor();
+      this.tpResource = new System.Windows.Forms.TabPage();
+      this.ucResourceEditor1 = new Dune2000.Editor.UI.UserControls.ucResourceEditor();
+      this.tcEditorTabs.SuspendLayout();
       this.tpTextUib.SuspendLayout();
       this.tpColourUib.SuspendLayout();
       this.tpMenuUib.SuspendLayout();
       this.tpCampaignUib.SuspendLayout();
+      this.tpResource.SuspendLayout();
       this.SuspendLayout();
       // 
-      // tcMain
+      // tcEditorTabs
       // 
-      this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.tcMain.Controls.Add(this.tpTextUib);
-      this.tcMain.Controls.Add(this.tpColourUib);
-      this.tcMain.Controls.Add(this.tpMenuUib);
-      this.tcMain.Controls.Add(this.tpCampaignUib);
-      this.tcMain.Location = new System.Drawing.Point(12, 33);
-      this.tcMain.Name = "tcMain";
-      this.tcMain.SelectedIndex = 0;
-      this.tcMain.Size = new System.Drawing.Size(937, 557);
-      this.tcMain.TabIndex = 1;
+      this.tcEditorTabs.Controls.Add(this.tpTextUib);
+      this.tcEditorTabs.Controls.Add(this.tpColourUib);
+      this.tcEditorTabs.Controls.Add(this.tpMenuUib);
+      this.tcEditorTabs.Controls.Add(this.tpCampaignUib);
+      this.tcEditorTabs.Controls.Add(this.tpResource);
+      this.tcEditorTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tcEditorTabs.Location = new System.Drawing.Point(0, 60);
+      this.tcEditorTabs.Name = "tcEditorTabs";
+      this.tcEditorTabs.SelectedIndex = 0;
+      this.tcEditorTabs.Size = new System.Drawing.Size(961, 542);
+      this.tcEditorTabs.TabIndex = 1;
+      this.tcEditorTabs.SelectedIndexChanged += new System.EventHandler(this.tcEditorTabs_SelectedIndexChanged);
       // 
       // tpTextUib
       // 
@@ -66,18 +69,10 @@
       this.tpTextUib.Location = new System.Drawing.Point(4, 22);
       this.tpTextUib.Name = "tpTextUib";
       this.tpTextUib.Padding = new System.Windows.Forms.Padding(3);
-      this.tpTextUib.Size = new System.Drawing.Size(929, 531);
+      this.tpTextUib.Size = new System.Drawing.Size(953, 516);
       this.tpTextUib.TabIndex = 0;
       this.tpTextUib.Text = "Text Uib";
       this.tpTextUib.UseVisualStyleBackColor = true;
-      // 
-      // ucTextUibEditor1
-      // 
-      this.ucTextUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.ucTextUibEditor1.Location = new System.Drawing.Point(3, 3);
-      this.ucTextUibEditor1.Name = "ucTextUibEditor1";
-      this.ucTextUibEditor1.Size = new System.Drawing.Size(923, 525);
-      this.ucTextUibEditor1.TabIndex = 1;
       // 
       // tpColourUib
       // 
@@ -85,18 +80,10 @@
       this.tpColourUib.Location = new System.Drawing.Point(4, 22);
       this.tpColourUib.Name = "tpColourUib";
       this.tpColourUib.Padding = new System.Windows.Forms.Padding(3);
-      this.tpColourUib.Size = new System.Drawing.Size(929, 467);
+      this.tpColourUib.Size = new System.Drawing.Size(953, 516);
       this.tpColourUib.TabIndex = 1;
       this.tpColourUib.Text = "Colour Uib";
       this.tpColourUib.UseVisualStyleBackColor = true;
-      // 
-      // ucColourUibEditor1
-      // 
-      this.ucColourUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.ucColourUibEditor1.Location = new System.Drawing.Point(3, 3);
-      this.ucColourUibEditor1.Name = "ucColourUibEditor1";
-      this.ucColourUibEditor1.Size = new System.Drawing.Size(923, 461);
-      this.ucColourUibEditor1.TabIndex = 0;
       // 
       // tpMenuUib
       // 
@@ -104,18 +91,10 @@
       this.tpMenuUib.Location = new System.Drawing.Point(4, 22);
       this.tpMenuUib.Name = "tpMenuUib";
       this.tpMenuUib.Padding = new System.Windows.Forms.Padding(3);
-      this.tpMenuUib.Size = new System.Drawing.Size(929, 467);
+      this.tpMenuUib.Size = new System.Drawing.Size(953, 516);
       this.tpMenuUib.TabIndex = 2;
       this.tpMenuUib.Text = "Menu Uib";
       this.tpMenuUib.UseVisualStyleBackColor = true;
-      // 
-      // ucMenusUibEditor1
-      // 
-      this.ucMenusUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.ucMenusUibEditor1.Location = new System.Drawing.Point(3, 3);
-      this.ucMenusUibEditor1.Name = "ucMenusUibEditor1";
-      this.ucMenusUibEditor1.Size = new System.Drawing.Size(923, 461);
-      this.ucMenusUibEditor1.TabIndex = 0;
       // 
       // tpCampaignUib
       // 
@@ -123,60 +102,104 @@
       this.tpCampaignUib.Location = new System.Drawing.Point(4, 22);
       this.tpCampaignUib.Name = "tpCampaignUib";
       this.tpCampaignUib.Padding = new System.Windows.Forms.Padding(3);
-      this.tpCampaignUib.Size = new System.Drawing.Size(929, 467);
+      this.tpCampaignUib.Size = new System.Drawing.Size(953, 516);
       this.tpCampaignUib.TabIndex = 3;
       this.tpCampaignUib.Text = "Campaign Uib";
       this.tpCampaignUib.UseVisualStyleBackColor = true;
+      // 
+      // ucTextUibEditor1
+      // 
+      this.ucTextUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.ucTextUibEditor1.Location = new System.Drawing.Point(3, 3);
+      this.ucTextUibEditor1.Name = "ucTextUibEditor1";
+      this.ucTextUibEditor1.Size = new System.Drawing.Size(947, 510);
+      this.ucTextUibEditor1.TabIndex = 1;
+      // 
+      // ucColourUibEditor1
+      // 
+      this.ucColourUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.ucColourUibEditor1.Location = new System.Drawing.Point(3, 3);
+      this.ucColourUibEditor1.Name = "ucColourUibEditor1";
+      this.ucColourUibEditor1.Size = new System.Drawing.Size(947, 510);
+      this.ucColourUibEditor1.TabIndex = 0;
+      // 
+      // ucMenusUibEditor1
+      // 
+      this.ucMenusUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.ucMenusUibEditor1.Location = new System.Drawing.Point(3, 3);
+      this.ucMenusUibEditor1.Name = "ucMenusUibEditor1";
+      this.ucMenusUibEditor1.Size = new System.Drawing.Size(947, 510);
+      this.ucMenusUibEditor1.TabIndex = 0;
       // 
       // ucCampaignUibEditor1
       // 
       this.ucCampaignUibEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.ucCampaignUibEditor1.Location = new System.Drawing.Point(3, 3);
       this.ucCampaignUibEditor1.Name = "ucCampaignUibEditor1";
-      this.ucCampaignUibEditor1.Size = new System.Drawing.Size(923, 461);
+      this.ucCampaignUibEditor1.Size = new System.Drawing.Size(947, 510);
       this.ucCampaignUibEditor1.TabIndex = 0;
       // 
-      // label1
+      // ucEditorController
       // 
-      this.label1.AutoSize = true;
-      this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-      this.label1.ForeColor = System.Drawing.Color.Red;
-      this.label1.Location = new System.Drawing.Point(13, 4);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(539, 24);
-      this.label1.TabIndex = 2;
-      this.label1.Text = "Test version. Make a backup of your files before experimenting.";
+      this.ucEditorController.AutoSize = true;
+      this.ucEditorController.Dock = System.Windows.Forms.DockStyle.Top;
+      this.ucEditorController.Location = new System.Drawing.Point(0, 0);
+      this.ucEditorController.Name = "ucEditorController";
+      this.ucEditorController.Size = new System.Drawing.Size(961, 60);
+      this.ucEditorController.TabIndex = 3;
+      // 
+      // tpResource
+      // 
+      this.tpResource.Controls.Add(this.ucResourceEditor1);
+      this.tpResource.Location = new System.Drawing.Point(4, 22);
+      this.tpResource.Name = "tpResource";
+      this.tpResource.Padding = new System.Windows.Forms.Padding(3);
+      this.tpResource.Size = new System.Drawing.Size(953, 516);
+      this.tpResource.TabIndex = 4;
+      this.tpResource.Text = "Resource";
+      this.tpResource.UseVisualStyleBackColor = true;
+      // 
+      // ucResourceEditor1
+      // 
+      this.ucResourceEditor1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.ucResourceEditor1.Location = new System.Drawing.Point(3, 3);
+      this.ucResourceEditor1.Name = "ucResourceEditor1";
+      this.ucResourceEditor1.Size = new System.Drawing.Size(947, 510);
+      this.ucResourceEditor1.TabIndex = 0;
       // 
       // MainEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(961, 602);
-      this.Controls.Add(this.label1);
-      this.Controls.Add(this.tcMain);
+      this.Controls.Add(this.tcEditorTabs);
+      this.Controls.Add(this.ucEditorController);
       this.Name = "MainEditor";
       this.Text = "Dune 2000 Editor";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainEditor_FormClosing);
-      this.tcMain.ResumeLayout(false);
+      this.tcEditorTabs.ResumeLayout(false);
       this.tpTextUib.ResumeLayout(false);
       this.tpColourUib.ResumeLayout(false);
       this.tpMenuUib.ResumeLayout(false);
       this.tpCampaignUib.ResumeLayout(false);
+      this.tpResource.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
     }
 
     #endregion
-    private System.Windows.Forms.TabControl tcMain;
+    private System.Windows.Forms.TabControl tcEditorTabs;
     private System.Windows.Forms.TabPage tpTextUib;
-    private UserControls.ucTextUibEditor ucTextUibEditor1;
     private System.Windows.Forms.TabPage tpColourUib;
     private UserControls.ucColourUibEditor ucColourUibEditor1;
     private System.Windows.Forms.TabPage tpMenuUib;
     private UserControls.ucMenusUibEditor ucMenusUibEditor1;
     private System.Windows.Forms.TabPage tpCampaignUib;
     private UserControls.ucCampaignUibEditor ucCampaignUibEditor1;
-    private System.Windows.Forms.Label label1;
+    private UserControls.ucTextUibEditor ucTextUibEditor1;
+    private UserControls.ucEditor ucEditorController;
+    private System.Windows.Forms.TabPage tpResource;
+    private UserControls.ucResourceEditor ucResourceEditor1;
   }
 }

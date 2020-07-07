@@ -5,13 +5,13 @@ using Primrose.Primitives.Extensions;
 
 namespace Dune2000.Editor.UI.UserControls
 {
-  public partial class ucTextUibEditor : ucEditor
+  public partial class ucTextUibEditor : UIBEditorControl
   {
     public ucTextUibEditor()
     {
       InitializeComponent();
-      SetSearchColumns(DcKey, DcValue);
-      SetSearchComparers(MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE);
+      _dgv = dgvTable;
+      _comparers.Default = new string[] { MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE };
       panel1.Enabled = false;
     }
 
@@ -22,14 +22,19 @@ namespace Dune2000.Editor.UI.UserControls
 
     private TextUibFile _uib = null;
 
-    protected override void UnloadInner()
+    public override object[] SearchKeys { get { return new DataGridViewColumn[] { DcKey }; } }
+    public override string OpenFileFilter { get { return "Text uib files|*text*.uib;samples.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
+    public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
+
+    public override void Unload()
     {
       dgvTable.Rows.Clear();
       _uib = null;
+      _dirty = false;
       panel1.Enabled = false;
     }
 
-    protected override void ReloadInner()
+    public override void Reload()
     {
       if (_uib == null) { return; }
       dgvTable.Rows.Clear();
@@ -37,16 +42,18 @@ namespace Dune2000.Editor.UI.UserControls
       {
         dgvTable.Rows.Add(entry.Key, entry.Value);
       }
+      _dirty = false;
       panel1.Enabled = true;
     }
 
-    protected override bool LoadFile(string path)
+    public override bool LoadFile(string path)
     {
       try
       {
         TextUibFile uib = new TextUibFile();
         uib.ReadFromFile(path);
         _uib = uib;
+        _dirty = false;
         return true;
       }
       catch
@@ -56,7 +63,7 @@ namespace Dune2000.Editor.UI.UserControls
       }
     }
 
-    protected override void SaveFile(string path)
+    public override bool SaveFile(string path)
     {
       TextUibFile uib = new TextUibFile();
       uib.Entries.Clear();
@@ -68,8 +75,8 @@ namespace Dune2000.Editor.UI.UserControls
       }
       uib.WriteToFile(path);
       _uib = uib;
-      Path = path;
-      _changed = false;
+      _dirty = false;
+      return true;
     }
 
     protected override bool Search(DataGridViewColumn searchColumn, int searchDirection, string comparer, string value)
@@ -124,6 +131,6 @@ namespace Dune2000.Editor.UI.UserControls
       }
     }
 
-    private void DgvTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) { if (e.RowIndex > -1) _changed = true; }
+    private void DgvTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) { if (e.RowIndex > -1) _dirty = true; }
   }
 }

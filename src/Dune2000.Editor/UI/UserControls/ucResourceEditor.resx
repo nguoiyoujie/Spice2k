@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="DcKey.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DcValue.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Text uib files (text.uib or text{...}.uib) and some other uib files (samples.uib) store game text information as key-value combinations. The game provides a key, this table returns the string mapped to this key.</value>
+  <data name="label23.Text" xml:space="preserve">
+    <value>The image resources file (.R8, .R16 files) stores images for the game to render. For 8-bit images, each entry may use the base palette from the game for coloring, or supply their own. R16 images come supplied with their own color data in 15-bit High Color format.</value>
   </data>
+  <metadata name="ofdPalette.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>269, 17</value>
+  </metadata>
+  <metadata name="ofdHousePalette.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>376, 17</value>
+  </metadata>
 </root>

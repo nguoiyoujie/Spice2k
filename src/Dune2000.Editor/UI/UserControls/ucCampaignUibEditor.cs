@@ -13,12 +13,11 @@ using Primrose.Primitives.Factories;
 
 namespace Dune2000.Editor.UI.UserControls
 {
-  public partial class ucCampaignUibEditor : ucEditor
+  public partial class ucCampaignUibEditor : EditorControl
   {
     public ucCampaignUibEditor()
     {
       InitializeComponent();
-      SupportSearch = false;
 
       cbDirection1.Items.AddRange(Enum.GetNames(typeof(Direction)));
       cbDirection2.Items.AddRange(Enum.GetNames(typeof(Direction)));
@@ -53,7 +52,11 @@ namespace Dune2000.Editor.UI.UserControls
     private int _house;
     private int _scenario;
 
-    protected override void UnloadInner()
+    public override bool SupportSearch { get { return false; } }
+    public override string OpenFileFilter { get { return "Campaign uib files|campaign*.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
+    public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
+
+    public override void Unload()
     {
       cbDirection1.SelectedIndex = -1;
       cbDirection2.SelectedIndex = -1;
@@ -108,7 +111,7 @@ namespace Dune2000.Editor.UI.UserControls
       cbHouse1.SelectedIndex = ((int)data.RegionAnim_House1).Clamp(0, cbHouse1.Items.Count);
       cbHouse2.SelectedIndex = ((int)data.RegionAnim_House2).Clamp(0, cbHouse2.Items.Count);
       cbHouse3.SelectedIndex = ((int)data.RegionAnim_House3).Clamp(0, cbHouse3.Items.Count);
-      cbEnemyHouse.SelectedIndex = ((int)data.Unconfirmed_MainEnemyHouse).Clamp(0, cbEnemyHouse.Items.Count);
+      cbEnemyHouse.SelectedIndex = ((int)data.ScoreEnemyHouse).Clamp(0, cbEnemyHouse.Items.Count);
 
       tbMapFile1.Text = data.MissionFile1;
       tbMapFile2.Text = data.MissionFile2;
@@ -150,14 +153,15 @@ namespace Dune2000.Editor.UI.UserControls
       nudIcon2Y.Enabled = nudR2.Value != 0;
     }
 
-    protected override void ReloadInner()
+    public override void Reload()
     {
       _uibWorkingCopy = _uib;
       ReloadPage(true);
+      _dirty = false;
       panel1.Enabled = true;
     }
 
-    protected override bool LoadFile(string path)
+    public override bool LoadFile(string path)
     {
       try
       {
@@ -165,6 +169,7 @@ namespace Dune2000.Editor.UI.UserControls
         uib.ReadFromFile(path);
         _uib = uib;
         _uibWorkingCopy = uib;
+        _dirty = false;
         return true;
       }
       catch 
@@ -174,12 +179,12 @@ namespace Dune2000.Editor.UI.UserControls
       }
     }
 
-    protected override void SaveFile(string path)
+    public override bool SaveFile(string path)
     {
       _uibWorkingCopy.WriteToFile(path);
       _uib = _uibWorkingCopy;
-      Path = path;
-      _changed = false;
+      _dirty = false;
+      return true;
     }
 
     private void cbHouse_SelectedIndexChanged(object sender, EventArgs e)
@@ -313,7 +318,7 @@ namespace Dune2000.Editor.UI.UserControls
     private void cbEnemyHouse_SelectedIndexChanged(object sender, EventArgs e)
     {
       int index = cbEnemyHouse.SelectedIndex.Max(0);
-      _uibWorkingCopy.Houses[_house].Missions[_scenario].Unconfirmed_MainEnemyHouse = (House)index;
+      _uibWorkingCopy.Houses[_house].Missions[_scenario].ScoreEnemyHouse = (House)index;
     }
 
     private void bBefAnim_Click(object sender, EventArgs e)
@@ -462,6 +467,19 @@ namespace Dune2000.Editor.UI.UserControls
       catch { }
     }
 
+    private void llblRegion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      pRegion.Visible = !pRegion.Visible;
+    }
 
+    private void llblCommon_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      pCommon.Visible = !pCommon.Visible;
+    }
+
+    private void llblPreview_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      pPreview.Visible = !pPreview.Visible;
+    }
   }
 }

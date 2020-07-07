@@ -1,4 +1,5 @@
-﻿using Dune2000.Structs.Pal;
+﻿using Dune2000.FileFormats.Mis;
+using Dune2000.Structs.Pal;
 using Primrose.Primitives.Extensions;
 using Primrose.Primitives.ValueTypes;
 using System;
@@ -10,8 +11,8 @@ namespace Dune2000.Structs.R16
   public enum PaletteType : byte
   {
     EMPTY_ENTRY = 0, // No image data is stored here. Skip and proceed to the next entry.
-    NEW_PALETTE = 1,
-    USE_PREVIOUS = 2
+    EMBEDDED_PALETTE = 1,
+    REFERENCED_PALETTE = 2
   }
 
   public class ResourceElement
@@ -42,7 +43,7 @@ namespace Dune2000.Structs.R16
     public bool IsEmpty { get { return PaletteType == PaletteType.EMPTY_ENTRY; } }
     public int2 ImageSize { get { return new int2(ImageWidth, ImageHeight); } set { ImageWidth = value.x; ImageHeight = value.y; } }
     public int2 ImageOffset { get { return new int2(ImageOffsetX, ImageOffsetY); } set { ImageOffsetX = value.x; ImageOffsetY = value.y; } }
-    public byte2 FrameSize { get { return new byte2(FrameWidth, FrameHeight); } set { FrameWidth = value.x; FrameHeight = value.y; } }
+    public int2 FrameSize { get { return new int2(FrameWidth, FrameHeight); } set { FrameWidth = (byte)value.x; FrameHeight = (byte)value.y; } }
 
     public void Read(BinaryReader reader, ref Palette_15Bit currentPalette)
     {
@@ -60,8 +61,8 @@ namespace Dune2000.Structs.R16
       ImageHandle = reader.ReadInt32();
       PaletteHandle = reader.ReadInt32();
       BitsPerPixel = reader.ReadByte();
+      FrameHeight = reader.ReadByte(); // height comes before width. Why?
       FrameWidth = reader.ReadByte();
-      FrameHeight = reader.ReadByte();
       Alignment = reader.ReadByte();
 
       // insanity
@@ -95,13 +96,13 @@ namespace Dune2000.Structs.R16
         {
           switch (PaletteType)
           {
-            case PaletteType.NEW_PALETTE:
+            case PaletteType.EMBEDDED_PALETTE:
               Memory = reader.ReadInt32();
               PaletteHandle2 = reader.ReadInt32();
               currentPalette.Read(reader);
               break;
 
-            case PaletteType.USE_PREVIOUS:
+            case PaletteType.REFERENCED_PALETTE:
               break;
           }
         }
@@ -121,15 +122,15 @@ namespace Dune2000.Structs.R16
       if (PaletteHandle == 0)
       {
         // base palette, just set the type and don't write another palette data in
-        PaletteType = PaletteType.NEW_PALETTE;
+        PaletteType = PaletteType.EMBEDDED_PALETTE;
       }
       else if (prevPalette.Equals(Palette)) 
       { 
-        PaletteType = PaletteType.USE_PREVIOUS;
+        PaletteType = PaletteType.REFERENCED_PALETTE;
       }
       else
       {
-        PaletteType = PaletteType.NEW_PALETTE;
+        PaletteType = PaletteType.EMBEDDED_PALETTE;
         prevPalette = Palette; // for the next entry
       }
 
@@ -141,18 +142,18 @@ namespace Dune2000.Structs.R16
       writer.Write(ImageHandle);
       writer.Write(PaletteHandle);
       writer.Write(BitsPerPixel);
-      writer.Write(FrameWidth);
       writer.Write(FrameHeight);
+      writer.Write(FrameWidth);
       writer.Write(Alignment);
       writer.Write(ImageData);
 
-      if (PaletteType == PaletteType.NEW_PALETTE)
+      if (PaletteType == PaletteType.EMBEDDED_PALETTE)
       {
         Palette.Write(writer);
       }
     }
 
-    public Bitmap GetBitmap(ref IPalette basePalette, bool includeFrame, bool makeTransparent)
+    public Bitmap GetBitmap(ref IPalette basePalette, ref HousePaletteFile housePalette, bool includeFrame, bool makeTransparent, int houseIndex)
     {
       if (PaletteType == PaletteType.EMPTY_ENTRY)
       {
@@ -162,11 +163,14 @@ namespace Dune2000.Structs.R16
         return empty;
       }
 
-      Bitmap bmp = (includeFrame) ? new Bitmap(FrameWidth, FrameHeight) : new Bitmap(ImageWidth, ImageHeight);
-
+      Bitmap bmp = new Bitmap(ImageWidth, ImageHeight);
       if (BitsPerPixel == 8)
       {
         IPalette pal = (PaletteHandle == 0) ? basePalette : Palette;
+        if (houseIndex != -1)
+        {
+          pal = housePalette.Merge(pal, houseIndex);
+        }
 
         for (int x = 0; x < ImageWidth; x++)
           for (int y = 0; y < ImageHeight; y++)
@@ -174,7 +178,18 @@ namespace Dune2000.Structs.R16
             int pos = x + y * ImageWidth;
             byte data8 = ImageData[pos];
 
-            bmp.SetPixel(x, y, pal.Get(data8));
+            if (makeTransparent && data8 == 0)
+            {
+              bmp.SetPixel(x, y, Color.Transparent);
+            }
+            else if (makeTransparent && data8 == 1)
+            {
+              bmp.SetPixel(x, y, Color.FromArgb(128,0,0,0));
+            }
+            else
+            {
+              bmp.SetPixel(x, y, pal.Get(data8));
+            }
           }
       }
       else if (BitsPerPixel == 16)
@@ -203,7 +218,7 @@ namespace Dune2000.Structs.R16
         Bitmap bmpFrame = new Bitmap(FrameWidth, FrameHeight);
         bmpFrame.MakeTransparent();
         Graphics g = Graphics.FromImage(bmpFrame);
-        g.DrawImageUnscaled(bmp, new Point(ImageOffsetX, ImageOffsetY));
+        g.DrawImageUnscaled(bmp, new Point((FrameWidth - ImageWidth) / 2, (FrameHeight - ImageHeight) / 2));
         return bmpFrame;
       }
       else

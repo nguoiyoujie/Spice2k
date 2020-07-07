@@ -7,13 +7,13 @@ using Primrose.Primitives.Extensions;
 
 namespace Dune2000.Editor.UI.UserControls
 {
-  public partial class ucColourUibEditor : ucEditor
+  public partial class ucColourUibEditor : UIBEditorControl
   {
     public ucColourUibEditor()
     {
       InitializeComponent();
-      SetSearchColumns(DcKey);
-      SetSearchComparers(MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE);
+      _dgv = dgvTable;
+      _comparers.Default = new string[] { MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE };
       panel1.Enabled = false;
     }
 
@@ -24,14 +24,19 @@ namespace Dune2000.Editor.UI.UserControls
 
     private ColourUibFile _uib = null;
 
-    protected override void UnloadInner()
+    public override object[] SearchKeys { get { return new DataGridViewColumn[] { DcKey }; } }
+    public override string OpenFileFilter { get { return "Colours uib files|colours*.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
+    public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
+
+    public override void Unload()
     {
       dgvTable.Rows.Clear();
       _uib = null;
+      _dirty = false;
       panel1.Enabled = false;
     }
 
-    protected override void ReloadInner()
+    public override void Reload()
     {
       if (_uib == null) { return; }
       dgvTable.Rows.Clear();
@@ -40,16 +45,18 @@ namespace Dune2000.Editor.UI.UserControls
         int index = dgvTable.Rows.Add(entry.Key, "");
         dgvTable.Rows[index].Cells[DcColor.Name] = new DataColorCell(entry.Value);
       }
+      _dirty = false;
       panel1.Enabled = true;
     }
 
-    protected override bool LoadFile(string path)
+    public override bool LoadFile(string path)
     {
       try
       {
         ColourUibFile uib = new ColourUibFile();
         uib.ReadFromFile(path);
         _uib = uib;
+        _dirty = false;
         return true;
       }
       catch
@@ -59,7 +66,7 @@ namespace Dune2000.Editor.UI.UserControls
       }
     }
 
-    protected override void SaveFile(string path)
+    public override bool SaveFile(string path)
     {
       ColourUibFile uib = new ColourUibFile();
       uib.Entries.Clear();
@@ -70,8 +77,8 @@ namespace Dune2000.Editor.UI.UserControls
       }
       uib.WriteToFile(path);
       _uib = uib;
-      Path = path;
-      _changed = false;
+      _dirty = false;
+      return true;
     }
 
     protected override bool Search(DataGridViewColumn searchColumn, int searchDirection, string comparer, string value)
@@ -126,7 +133,7 @@ namespace Dune2000.Editor.UI.UserControls
       }
     }
 
-    private void DgvTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) { if (e.RowIndex > -1) _changed = true; }
+    private void DgvTable_CellValueChanged(object sender, DataGridViewCellEventArgs e) { if (e.RowIndex > -1) _dirty = true; }
 
     private void DgvTable_CellClick(object sender, DataGridViewCellEventArgs e)
     {
@@ -136,7 +143,7 @@ namespace Dune2000.Editor.UI.UserControls
         if (dColor.ShowDialog() == DialogResult.OK)
         {
           dgvTable.Rows[e.RowIndex].Cells[DcColor.Name] = new DataColorCell(dColor.Color);
-          _changed = true;
+          _dirty = true;
         }
       }
     }

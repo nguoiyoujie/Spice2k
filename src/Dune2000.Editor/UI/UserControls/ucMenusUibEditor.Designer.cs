@@ -1,4 +1,6 @@
-﻿namespace Dune2000.Editor.UI.UserControls
+﻿using Dune2000.Editor.UI.Objects;
+
+namespace Dune2000.Editor.UI.UserControls
 {
   partial class ucMenusUibEditor
   {
@@ -28,15 +30,15 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.dgvTable = new System.Windows.Forms.DataGridView();
-      this.DcKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.DcMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.DcFadeIn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-      this.DcFadeOut = new System.Windows.Forms.DataGridViewComboBoxColumn();
+      this.dgvTable = new ExtendedDataGridView();
       this.panel1 = new System.Windows.Forms.Panel();
       this.panel2 = new System.Windows.Forms.Panel();
       this.label2 = new System.Windows.Forms.Label();
       this.label1 = new System.Windows.Forms.Label();
+      this.DcFadeOut = new System.Windows.Forms.DataGridViewComboBoxColumn();
+      this.DcFadeIn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+      this.DcMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.DcKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
       ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
       this.panel1.SuspendLayout();
       this.panel2.SuspendLayout();
@@ -56,46 +58,6 @@
       this.dgvTable.Size = new System.Drawing.Size(789, 429);
       this.dgvTable.TabIndex = 0;
       this.dgvTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTable_CellValueChanged);
-      // 
-      // DcKey
-      // 
-      this.DcKey.HeaderText = "Key";
-      this.DcKey.MinimumWidth = 100;
-      this.DcKey.Name = "DcKey";
-      this.DcKey.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // DcMenu
-      // 
-      this.DcMenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-      this.DcMenu.HeaderText = "Menu File";
-      this.DcMenu.Name = "DcMenu";
-      this.DcMenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // DcFadeIn
-      // 
-      this.DcFadeIn.HeaderText = "Fade In Action";
-      this.DcFadeIn.Items.AddRange(new object[] {
-            "Fade from Black",
-            "Fade to Black",
-            "Tween",
-            "Don\'t Fade"});
-      this.DcFadeIn.MinimumWidth = 120;
-      this.DcFadeIn.Name = "DcFadeIn";
-      this.DcFadeIn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      this.DcFadeIn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-      this.DcFadeIn.Width = 120;
-      // 
-      // DcFadeOut
-      // 
-      this.DcFadeOut.HeaderText = "Fade Out Action";
-      this.DcFadeOut.Items.AddRange(new object[] {
-            "Fade from Black",
-            "Fade to Black",
-            "Tween",
-            "Don\'t Fade"});
-      this.DcFadeOut.MinimumWidth = 120;
-      this.DcFadeOut.Name = "DcFadeOut";
-      this.DcFadeOut.Width = 120;
       // 
       // panel1
       // 
@@ -139,6 +101,46 @@
     " provides a key, this table returns the menu file path and parameters mapped to " +
     "this key.";
       // 
+      // DcFadeOut
+      // 
+      this.DcFadeOut.HeaderText = "Fade Out Action";
+      this.DcFadeOut.Items.AddRange(new object[] {
+            "Fade from Black",
+            "Fade to Black",
+            "Tween",
+            "Don\'t Fade"});
+      this.DcFadeOut.MinimumWidth = 120;
+      this.DcFadeOut.Name = "DcFadeOut";
+      this.DcFadeOut.Width = 120;
+      // 
+      // DcFadeIn
+      // 
+      this.DcFadeIn.HeaderText = "Fade In Action";
+      this.DcFadeIn.Items.AddRange(new object[] {
+            "Fade from Black",
+            "Fade to Black",
+            "Tween",
+            "Don\'t Fade"});
+      this.DcFadeIn.MinimumWidth = 120;
+      this.DcFadeIn.Name = "DcFadeIn";
+      this.DcFadeIn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      this.DcFadeIn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+      this.DcFadeIn.Width = 120;
+      // 
+      // DcMenu
+      // 
+      this.DcMenu.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+      this.DcMenu.HeaderText = "Menu File";
+      this.DcMenu.Name = "DcMenu";
+      this.DcMenu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
+      // DcKey
+      // 
+      this.DcKey.HeaderText = "Key";
+      this.DcKey.MinimumWidth = 100;
+      this.DcKey.Name = "DcKey";
+      this.DcKey.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
       // ucMenusUibEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -158,7 +160,7 @@
 
     #endregion
 
-    private System.Windows.Forms.DataGridView dgvTable;
+    private ExtendedDataGridView dgvTable;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.Panel panel2;
     private System.Windows.Forms.Label label2;

@@ -16,25 +16,43 @@ namespace Dune2000.Editor.UI.UserControls
       InitializeComponent();
     }
 
-    protected bool SupportSearch { get { return tsmiSearch.Visible; } set { tsmiSearch.Visible = value; } }
+    private IEditorControl _editor = null;
+
+    public void SetEditor(IEditorControl editor)
+    {
+      try
+      {
+        _editor = editor;
+        Path = "";
+        tsmiSearch.Visible = editor.SupportSearch;
+        dOpen.Filter = editor.OpenFileFilter;
+        dSave.Filter = editor.SaveFileFilter;
+        UpdateSearchBarVisibility();
+        if (_editor is Control c) { c.Enabled = true; }
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show("Error encountered when setting up editor '{0}'.\n\nException: {1}\nMessage: {2}".F(_editor.GetType().Name, e.GetType(), e.Message), "Dune 2000 Editor", MessageBoxButtons.OK);
+        _editor = null;
+      }
+    }
+
     protected string Path { get { return _path; } set { if (_path != value) { _path = value; lblFileName.Text = _path; } } }
-    protected bool _changed = false;
     private string _path = null;
-    private DataGridViewColumn[] _columns = new DataGridViewColumn[0];
-    private Registry<DataGridViewColumn, string[]> _comparers = new Registry<DataGridViewColumn, string[]>();
+    private bool _visibleSearch = false;
 
     private void Open()
     {
+      if (_editor == null) { return; }
       if (!CheckChange()) { return; }
       if (dOpen.ShowDialog() != DialogResult.OK) { return; }
 
       try
       {
-        if (LoadFile(dOpen.FileName))
+        if (_editor.LoadFile(dOpen.FileName))
         {
           Reload();
           Path = dOpen.FileName;
-          _changed = false;
         }
       }
       catch (Exception e)
@@ -46,24 +64,17 @@ namespace Dune2000.Editor.UI.UserControls
     public bool Unload()
     {
       if (!CheckChange()) { return false; }
-      UnloadInner();
+      _editor.Unload();
       Path = null;
-      _changed = false;
       return true;
     }
 
     private void Reload()
     {
       this.SuspendDrawing();
-      ReloadInner();
+      _editor.Reload();
       this.ResumeDrawing();
-      _changed = false;
     }
-
-    protected virtual void UnloadInner() { }
-    protected virtual void ReloadInner() { }
-    protected virtual bool LoadFile(string path) { return false; }
-    protected virtual void SaveFile(string path) { }
 
     private bool Save(bool saveAs)
     {
@@ -74,8 +85,7 @@ namespace Dune2000.Editor.UI.UserControls
       }
       try
       {
-        SaveFile(Path);
-        _changed = false;
+        _editor.SaveFile(Path);
       }
       catch (Exception e)
       {
@@ -87,7 +97,7 @@ namespace Dune2000.Editor.UI.UserControls
 
     private bool CheckChange()
     {
-      if (_changed && Path != null)
+      if (_editor.Dirty && Path != null)
       {
         switch (MessageBox.Show("You have unsaved changes on {0}.\nDo you want to save before closing?".F(Path), "Dune 2000 Editor", MessageBoxButtons.YesNoCancel))
         {
@@ -104,32 +114,11 @@ namespace Dune2000.Editor.UI.UserControls
       return true;
     }
 
-    protected void SetSearchColumns(params DataGridViewColumn[] columns)
-    {
-      tscbKeyValue.Items.Clear();
-      foreach (DataGridViewColumn column in columns)
-      {
-        tscbKeyValue.Items.Add(column.HeaderText);
-      }
-      _columns = (DataGridViewColumn[])columns.Clone();
-    }
-
-    protected void SetSearchComparers(params string[] options)
-    {
-      _comparers.Default = (string[])options.Clone();
-    }
-
-    protected void SetSearchComparers(DataGridViewColumn column, params string[] options)
-    {
-      _comparers.Put(column, (string[])options.Clone());
-    }
-
     private void Search(int searchDirection)
     {
-      DataGridViewColumn SearchColumn = _columns[tscbKeyValue.SelectedIndex];
       try
       {
-        if (!Search(SearchColumn, searchDirection, tscbComparer.Text, tstbSearch.Text))
+        if (!_editor.Search(tscbKeyValue.SelectedIndex, searchDirection, tscbComparer.Text, tstbSearch.Text))
         {
           MessageBox.Show("No match found.", "Dune 2000 Editor");
         }
@@ -139,8 +128,6 @@ namespace Dune2000.Editor.UI.UserControls
         MessageBox.Show("Error encountered finding match\n\n{0}: {1}\n\nStack Trace:\n{2}".F(e.GetType(), e.Message, e.StackTrace), "Dune 2000 Editor");
       }
     }
-
-    protected virtual bool Search(DataGridViewColumn searchColumn, int searchDirection, string comparer, string value) { return false; }
 
     private void OpenToolStripMenuItem_Click(object sender, EventArgs e) { Open(); }
 
@@ -158,7 +145,13 @@ namespace Dune2000.Editor.UI.UserControls
 
     private void TsmiSearch_Click(object sender, EventArgs e)
     {
-      menuSearchBar.Visible = !menuSearchBar.Visible;
+      _visibleSearch = !_visibleSearch;
+      UpdateSearchBarVisibility();
+    }
+
+    private void UpdateSearchBarVisibility()
+    {
+      menuSearchBar.Visible = _visibleSearch && tsmiSearch.Visible;
       tsmiSearch.BackColor = menuSearchBar.Visible ? SystemColors.ActiveCaption : SystemColors.Control;
     }
 
@@ -175,12 +168,11 @@ namespace Dune2000.Editor.UI.UserControls
     {
       try
       {
-        DataGridViewColumn c = _columns[tscbKeyValue.SelectedIndex];
-        List<string> cmplist = new List<string>(_comparers.Get(c));
+        List<string> cmplist = new List<string>(_editor.GetSearchComparers(tscbKeyValue.SelectedIndex));
         if (!cmplist.Contains(tscbComparer.Text))
         {
           tscbComparer.Items.Clear();
-          tscbComparer.Items.AddRange(_comparers.Get(c));
+          tscbComparer.Items.AddRange(cmplist.ToArray());
         }
         SearchOptionsChanged(sender, e);
       }
