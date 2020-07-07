@@ -78,6 +78,115 @@ Offset(h) | Data Type | Name | Description
 0x00fc | ------ | End | End of section
 
 
+### Campaign Flow Pseudocode
+
+```
+CampaignSequence(int playerHouseID, int MissionID)
+{
+  // Inherit all changes up to and not including the previous mission
+  for (int mission = 0; mission < MissionID - 1; mission++)
+  {
+    CampaignScenarioData data = CampaignUIBData[HouseID][mission];
+    
+    int FirstHouseID = data.RegionAnimationOrder1;
+    int SecondHouseID = data.RegionAnimationOrder2;
+    int ThirdHouseID = data.RegionAnimationOrder3;
+
+    foreach (int house in new int[] {FirstHouseID, SecondHouseID, ThirdHouseID})
+    {
+      if (house == playerHouseID)
+      {
+        if (data.RegionID1 != 0) { ColorRegion(data.RegionID1, (House)playerHouseID); }
+        if (data.RegionID2 != 0) { ColorRegion(data.RegionID2, (House)playerHouseID); }  
+      }
+      
+      switch ((House)house)
+      {
+        case House.Atreides:
+          foreach (int regionID in data.RegionsToAtreides) 
+          {
+            if (regionID != 0) { ColorRegion(regionID, House.Atreides);}
+          }
+      
+        case House.Harkonnen:    
+         foreach (int regionID in data.RegionsToHarkonnen) 
+          {
+            if (regionID != 0) { ColorRegion(regionID, House.Harkonnen);}
+          }     
+        
+        case House.Ordos:
+          foreach (int regionID in data.RegionsToOrdos) 
+          {
+            if (regionID != 0) { ColorRegion(regionID, House.Ordos);}
+          }      
+        }
+      }
+    }   
+  }
+
+  // Begin animation sequences transiting previous mission to this mission
+  int prevMission = MissionID - 1;
+  
+  CampaignScenarioData data2 = CampaignUIBData[HouseID][prevMission];
+    
+  int FirstHouseID = data2.RegionAnimationOrder1;
+  int SecondHouseID = data2.RegionAnimationOrder2;
+  int ThirdHouseID = data2.RegionAnimationOrder3;
+  int[] houses = new int[] {FirstHouseID, SecondHouseID, ThirdHouseID};
+  string[] sfxs = new int[] {data2.SFX1, data2.SFX2, data2.SFX3};
+  
+  for (int i = 0; i < 3; i++) 
+  {
+    PlaySFX(sfxs[i]);
+    int house = houses[i];
+  
+    if (house == playerHouseID)
+    {
+      if (data2.RegionID1 != 0) { AnimateColorRegion(data2.RegionID1, (House)playerHouseID); }
+      if (data2.RegionID2 != 0) { AnimateColorRegion(data2.RegionID2, (House)playerHouseID); }  
+    }
+      
+    switch ((House)house)
+    {
+      case House.Atreides:
+        foreach (int regionID in data2.RegionsToAtreides) 
+        {
+          if (regionID != 0) { AnimateColorRegion(regionID, House.Atreides);}
+        }
+    
+      case House.Harkonnen:    
+        foreach (int regionID in data2.RegionsToHarkonnen) 
+        {
+          if (regionID != 0) { AnimateColorRegion(regionID, House.Harkonnen);}
+        }     
+      
+      case House.Ordos:
+        foreach (int regionID in data2.RegionsToOrdos) 
+        {
+          if (regionID != 0) { AnimateColorRegion(regionID, House.Ordos);}
+        }      
+      }  
+    }
+  } 
+
+  // Prepare this mission  
+  CampaignScenarioData data3 = CampaignUIBData[HouseID][MissionID]; 
+  
+  if (data3.RegionID1 != 0) 
+  { 
+    ActivateRegionForMission(data3.RegionID1, data3.MissionID1); 
+    CreateIconForHouseAtLocation(playerHouseID, data3.Icon1LocationX, data3.Icon1LocationY);
+  }
+  
+  if (data3.RegionID2 != 0) 
+  {
+    ActivateRegionForMission(data3.RegionID2, data3.MissionID2); 
+    CreateIconForHouseAtLocation(playerHouseID, data3.Icon2LocationX, data3.Icon2LocationY);
+  }  
+}
+```
+
+
 ### Other research
 
 Changing the campaign.uib and various image data may allow you to customize your global map. However, you cannot, by those alone, change some features.
