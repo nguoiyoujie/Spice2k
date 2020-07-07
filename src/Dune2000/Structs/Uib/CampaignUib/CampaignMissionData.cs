@@ -86,7 +86,7 @@ namespace Dune2000.Structs.Uib
     public fixed byte Unknown_232_4[4];
 
     [FieldOffset(256)]
-    public House Unconfirmed_MainEnemyHouse;
+    public House ScoreEnemyHouse; // only 0,1,2 supported!
     #endregion
 
     public string MissionFile1
