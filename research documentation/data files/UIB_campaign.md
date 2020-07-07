@@ -1,4 +1,4 @@
-##Campaign UI Binary
+## Campaign UI Binary
 
 Key  | Value
 --- | ---
@@ -11,10 +11,10 @@ The Campaign UI binary file constains 30 blocks of scenario data, for 3 houses w
 
 The first scenario for each house is a non-playable scenario that is used to generate the initial data for the global map of the first mission.
 
-#### File Data
+### File Data
 
 Offset(h) | Size(h) | Size(d) | Data Type | Description
---- | --- | --- | --- 
+--- | --- | --- | --- | --- 
 0x0000 | 0x104 | 260 | CampaignScenarioData | Atreides Initialization
 0x0104 | 0x104 | 260 | CampaignScenarioData | Atreides Mission 1
 0x0208 | 0x104 | 260 | CampaignScenarioData | Atreides Mission 2
@@ -46,7 +46,7 @@ Offset(h) | Size(h) | Size(d) | Data Type | Description
 0x1c70 | 0x104 | 260 | CampaignScenarioData | Ordos Mission 8
 0x1d74 | 0x104 | 260 | CampaignScenarioData | Ordos Mission 9
 
-#### Section Data
+### Section Data
 **CampaignScenarioData**
 
 Offset(h) | Data Type | Name | Description
@@ -78,8 +78,7 @@ Offset(h) | Data Type | Name | Description
 0x00fc | ------ | End | End of section
 
 
-
-####Other research
+### Other research
 
 Changing the campaign.uib and various image data may allow you to customize your global map. However, you cannot, by those alone, change some features.
 
