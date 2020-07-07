@@ -1,7 +1,7 @@
 ##Campaign UI Binary
 
 Key  | Value
-- | -
+--- | ---
 File Location  | .\data\UI_DATA\campaign.uib
 File Size | Exactly 7800 bytes
 Description  | Provides the game with information on setting up each scenario in the single-player campaign, including the global map, the initial music theme, and some elements of the score screen.
@@ -14,7 +14,7 @@ The first scenario for each house is a non-playable scenario that is used to gen
 #### File Data
 
 Offset(h) | Size(h) | Size(d) | Data Type | Description
-- | - | - | - 
+--- | --- | --- | --- 
 0x0000 | 0x104 | 260 | CampaignScenarioData | Atreides Initialization
 0x0104 | 0x104 | 260 | CampaignScenarioData | Atreides Mission 1
 0x0208 | 0x104 | 260 | CampaignScenarioData | Atreides Mission 2
@@ -50,7 +50,7 @@ Offset(h) | Size(h) | Size(d) | Data Type | Description
 **CampaignScenarioData**
 
 Offset(h) | Data Type | Name | Description
-- | - | - | - 
+--- | --- | --- | --- 
 0x0000 | byte | Region ID 1 | The first region choice. It makes the corresponding global map region selectable. Awarded to the player house when the mission is won. Setting this to 0 disables the choice.
 0x0001 | byte | Region ID 2 | The second region choice. It makes the corresponding global map region selectable. Awarded to the player house when the mission is won. Setting this to 0 disables the choice.
 0x0002 | 4 bytes + 1 null byte | Mission ID 1 | The mission file to load when the first region choice is selected. 
@@ -60,7 +60,7 @@ Offset(h) | Data Type | Name | Description
 0x0014 | int | Region 1 Icon Location X  | The X location of the animated icon for region 1. This does not impact the clickable region, which is strictly tied to the region ID.
 0x0018 | int | Region 1 Icon Location Y  | The Y location of the animated icon for region 1.
 0x001c | int | Region 2 Icon Location X  | The X location of the animated icon for region 2.
-0x0020 | int | Region 2 Icon Location Y  | The Y location of the animated icon for region 1.
+0x0020 | int | Region 2 Icon Location Y  | The Y location of the animated icon for region 2.
 0x0024 | 3 bytes | Regions to Atreides | When the mission is won, ownership over these regions will be given to House Atreides. Each byte represents a region ID. Limited to 3 regions. A value of zero gives no region, which can be used to provide fewer regions to a House.
 0x0027 | 3 bytes | Regions to Harkonnen | When the mission is won, ownership over these regions will be given to House Harkonnen.
 0x002a | 3 bytes | Regions to Ordos | When the mission is won, ownership over these regions will be given to House Harkonnen.
@@ -92,7 +92,7 @@ The polygon data that determines the clickable region (the hotspots that change 
 **27 regions x 72 bytes each**
 
 Offset(h) | Data Type | Name | Description
-- | - | - | - 
+--- | --- | --- | --- 
 0x00 | uint | Count | The number of points to draw the region
 0x04 | POINT[] | Points | The points that make up the region. Each POINT is a {int x, int y} struct. This array may be of variable length as long as they can fit in 72 bytes. This limits the polygon to 8 points without overflow.
 
