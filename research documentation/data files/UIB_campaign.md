@@ -56,7 +56,7 @@ Offset(h) | Data Type | Name | Description
 0x0002 | 4 bytes + 1 null byte | Mission ID 1 | The mission file to load when the first region choice is selected. 
 0x0007 | 4 bytes + 1 null byte | Mission ID 2 | The mission file to load when the second region choice is selected. 
 0x000c | int | Direction 1 (unused) | A 8-point direction (0 = North, 1 = North East, ... 7 = North West). Its use is presently unknown.
-0x0010 | int | Direction 1 (unused) | A 8-point direction (0 = North, 1 = North East, ... 7 = North West). Its use is presently unknown.
+0x0010 | int | Direction 2 (unused) | A 8-point direction (0 = North, 1 = North East, ... 7 = North West). Its use is presently unknown.
 0x0014 | int | Region 1 Icon Location X  | The X location of the animated icon for region 1. This does not impact the clickable region, which is strictly tied to the region ID.
 0x0018 | int | Region 1 Icon Location Y  | The Y location of the animated icon for region 1.
 0x001c | int | Region 2 Icon Location X  | The X location of the animated icon for region 2.
