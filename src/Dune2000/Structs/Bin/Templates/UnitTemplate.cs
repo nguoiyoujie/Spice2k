@@ -74,7 +74,7 @@ namespace Dune2000.Structs.Bin.Templates
     public byte TechLevel;
 
     [FieldOffset(37)]
-    public byte Unknown_37;
+    public byte IsStarportUnit; // 00=no, 01=yes
 
     [FieldOffset(38)]
     public byte HasBarrel; // 00=no, 01=yes
@@ -127,7 +127,7 @@ namespace Dune2000.Structs.Bin.Templates
     public byte IsCrusher; // 00=no, 01=yes
 
     [FieldOffset(54)]
-    public byte Unknown_54;
+    public byte HealthBar; // 0=small (inf), 1=medium, 2=large (harvester)
 
     [FieldOffset(55)]
     public byte Unknown_55;
@@ -163,7 +163,7 @@ namespace Dune2000.Structs.Bin.Templates
     public SpeedType SpeedType;
 
     [FieldOffset(170)]
-    public byte Unknown_170;
+    public byte MultiplayerOnly;
 
     // more bytes, but they don't seem to be filled
     #endregion

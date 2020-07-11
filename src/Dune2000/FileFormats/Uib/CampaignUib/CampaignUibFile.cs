@@ -1,4 +1,5 @@
-﻿using Dune2000.Structs.Uib;
+﻿using Dune2000.Enums;
+using Dune2000.Structs.Uib;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -42,6 +43,72 @@ namespace Dune2000.FileFormats.Uib
           Marshal.StructureToPtr(this, handle.AddrOfPinnedObject(), true);
           writer.Write(writeBuffer, 0, writeBuffer.Length);
           handle.Free();
+        }
+      }
+    }
+
+    public CampaignUibFile Clone()
+    {
+      CampaignUibFile clone = new CampaignUibFile();
+      clone.Houses = new CampaignHouseData[MAX_PLAYABLEHOUSES];
+      for (int i = 0; i < MAX_PLAYABLEHOUSES; i++)
+      {
+        clone.Houses[i].Missions = (CampaignMissionData[])(Houses[i].Missions.Clone());
+      }
+      return clone;
+    }
+
+    public void GetRegionOwnership(ref House[] regionOwners, House playerHouse, int scenario, AnimStage stage)
+    {
+      for (int i = 0; i < regionOwners.Length; i++)
+      {
+        regionOwners[i] = (House)0xFF;
+      }
+
+      for (int scen = 0; scen < scenario; scen++)
+      {
+        CampaignMissionData data = Houses[(int)playerHouse].Missions[scen];
+
+        House[] animOrder = new House[] {
+            data.RegionAnim_House1,
+            data.RegionAnim_House2,
+            data.RegionAnim_House3
+          };
+
+        for (int h = 0; h < animOrder.Length; h++)
+        {
+          if (scen < scenario - 1 || (int)stage > h)
+          {
+            House ihouse = animOrder[h];
+            if (playerHouse == ihouse)
+            {
+              if (data.RegionID1 > 0 && data.RegionID1 <= regionOwners.Length) { regionOwners[data.RegionID1 - 1] = ihouse; }
+              if (data.RegionID2 > 0 && data.RegionID2 <= regionOwners.Length) { regionOwners[data.RegionID2 - 1] = ihouse; }
+            }
+            switch (ihouse)
+            {
+              case House.ATREIDES:
+                foreach (int r in data.RegionsAwardedToAtreides)
+                {
+                  if (r > 0 && r <= regionOwners.Length) { regionOwners[r - 1] = ihouse; }
+                }
+                break;
+
+              case House.HARKONNEN:
+                foreach (int r in data.RegionsAwardedToHarkonnen)
+                {
+                  if (r > 0 && r <= regionOwners.Length) { regionOwners[r - 1] = ihouse; }
+                }
+                break;
+
+              case House.ORDOS:
+                foreach (int r in data.RegionsAwardedToOrdos)
+                {
+                  if (r > 0 && r <= regionOwners.Length) { regionOwners[r - 1] = ihouse; }
+                }
+                break;
+            }
+          }
         }
       }
     }

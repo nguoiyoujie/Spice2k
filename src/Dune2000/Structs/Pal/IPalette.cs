@@ -9,5 +9,8 @@ namespace Dune2000.Structs.Pal
     void Write(BinaryWriter writer);
     Color Get(int index);
     void Set(int index, Color color);
+    void FromBitmap(Bitmap bitmap);
+    Bitmap ToBitmap();
+    int GetClosestIndexFromColor(Color color, out int difference);
   }
 }

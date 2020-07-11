@@ -1,8 +1,4 @@
-﻿using Dune2000.FileFormats.Bin;
-using Dune2000.FileFormats.Mis;
-using Dune2000.FileFormats.R16;
-using Dune2000.Launcher.UI.Forms;
-using Dune2000.Structs.Pal;
+﻿using Dune2000.Launcher.UI.Forms;
 using Primrose.Primitives.Extensions;
 using System;
 using System.Windows.Forms;

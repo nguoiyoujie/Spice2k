@@ -1,8 +1,6 @@
 ﻿using Dune2000.Structs.Pal;
 using Dune2000.Structs.R16;
 using Primrose.FileFormats.Common;
-using Primrose.Primitives.Extensions;
-using System;
 using System.Collections.Generic;
 using System.IO;
 

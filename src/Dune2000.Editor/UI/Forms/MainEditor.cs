@@ -1,5 +1,6 @@
 ﻿
-using Dune2000.Editor.UI.UserControls;
+using Dune2000.Editor.UI.Editors;
+using Dune2000.Editor.Util;
 using System.Windows.Forms;
 
 namespace Dune2000.Editor.UI.Forms
@@ -9,41 +10,51 @@ namespace Dune2000.Editor.UI.Forms
     public MainEditor()
     {
       InitializeComponent();
-      tcEditorTabs_SelectedIndexChanged(null, null);
+      ucEditorSelector1.EditorChanged += SwitchEditor;
+      ucEditorController.EditorChanged += ucEditorSelector1.UpdateEditor;
+
+      DoubleBuffered = true;
+
+      this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+      this.SetStyle(ControlStyles.UserPaint, true);
+      this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+      this.SetStyle(ControlStyles.ResizeRedraw, true);
     }
+
+    private IEditorControl _current;
 
     private void MainEditor_FormClosing(object sender, FormClosingEventArgs e)
     {
-      foreach (TabPage page in tcEditorTabs.TabPages)
+      if (!ucEditorSelector1.Closing(ucEditorController, SwitchEditor))
       {
-        foreach (Control c in page.Controls)
-        {
-          if (c is IEditorControl editc && editc.Dirty)
-          {
-            tcEditorTabs.SelectedTab = page;
-            ucEditorController.SetEditor(editc);
-            if (!ucEditorController.Unload())
-            {
-              e.Cancel = true;
-              return;
-            }
-          }
-        }
+        e.Cancel = true;
+        return;
       }
     }
 
-    private void tcEditorTabs_SelectedIndexChanged(object sender, System.EventArgs e)
+    private void SwitchEditor(IEditorControl editor)
     {
-      TabPage page = tcEditorTabs.SelectedTab;
-      if (page == null) { return; }
-
-      foreach (Control c in page.Controls)
+      this.SuspendDrawing();
+      SuspendLayout();
+      if (_current is Control c)
       {
-        if (c is IEditorControl editc)
-        {
-          ucEditorController.SetEditor(editc);
-        }
+        c.Visible = false;
+        c.Enabled = false;
+        pEditor.Controls.Remove(c);
+        _current = null;
       }
+
+      if (editor is Control e)
+      {
+        _current = editor;
+        e.Visible = true;
+        e.Enabled = true;
+        e.Dock = DockStyle.Fill;
+        pEditor.Controls.Add(e);
+        ucEditorController.SetEditor(editor);
+      }
+      ResumeLayout();
+      this.ResumeDrawing();
     }
   }
 }

@@ -90,6 +90,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\AnimStage.cs" />
     <Compile Include="Enums\SpeedType.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\FadeAction.cs" />

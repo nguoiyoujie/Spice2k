@@ -95,15 +95,52 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="UI\Editors\Bin\Colours\ucColoursBinEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Bin\Colours\ucColoursBinEditor.Designer.cs">
+      <DependentUpon>ucColoursBinEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\EventDelegates.cs" />
+    <Compile Include="UI\Editors\Resources\ImportResourceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Resources\ImportResourceForm.Designer.cs">
+      <DependentUpon>ImportResourceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Editors\Resources\ExportResourceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Resources\ExportResourceForm.Designer.cs">
+      <DependentUpon>ExportResourceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\MainEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\MainEditor.Designer.cs">
       <DependentUpon>MainEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\IEditorControl.cs">
+    <Compile Include="UI\Editors\EditorControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Uib\Campaign\CampaignCommonPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Uib\Campaign\CampaignCommonPanel.Designer.cs">
+      <DependentUpon>CampaignCommonPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Editors\Uib\Campaign\CampaignRegionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Uib\Campaign\CampaignRegionPanel.Designer.cs">
+      <DependentUpon>CampaignRegionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Editors\UibEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\IEditorControl.cs" />
+    <Compile Include="UI\Objects\PaletteView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Objects\ResourcePreview.cs">
       <SubType>Component</SubType>
@@ -112,46 +149,59 @@
     <Compile Include="UI\Objects\ExtendedDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucResourceEditor.cs">
+    <Compile Include="UI\Structs\PixelInfo.cs" />
+    <Compile Include="UI\Editors\ucEditorSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucResourceEditor.Designer.cs">
+    <Compile Include="UI\Editors\ucEditorSelector.Designer.cs">
+      <DependentUpon>ucEditorSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Editors\Bin\Palette\ucPaletteBinEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Bin\Palette\ucPaletteBinEditor.Designer.cs">
+      <DependentUpon>ucPaletteBinEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Editors\Resources\ucResourceEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Editors\Resources\ucResourceEditor.Designer.cs">
       <DependentUpon>ucResourceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucTemplatesBinEditor.cs">
+    <Compile Include="UI\Editors\Bin\Templates\ucTemplatesBinEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucTemplatesBinEditor.Designer.cs">
+    <Compile Include="UI\Editors\Bin\Templates\ucTemplatesBinEditor.Designer.cs">
       <DependentUpon>ucTemplatesBinEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucCampaignUibEditor.cs">
+    <Compile Include="UI\Editors\Uib\Campaign\ucCampaignUibEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucCampaignUibEditor.Designer.cs">
+    <Compile Include="UI\Editors\Uib\Campaign\ucCampaignUibEditor.Designer.cs">
       <DependentUpon>ucCampaignUibEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucColourUibEditor.cs">
+    <Compile Include="UI\Editors\Uib\Colours\ucColourUibEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucColourUibEditor.Designer.cs">
+    <Compile Include="UI\Editors\Uib\Colours\ucColourUibEditor.Designer.cs">
       <DependentUpon>ucColourUibEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucEditor.cs">
+    <Compile Include="UI\Editors\ucEditorController.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucEditor.Designer.cs">
-      <DependentUpon>ucEditor.cs</DependentUpon>
+    <Compile Include="UI\Editors\ucEditorController.Designer.cs">
+      <DependentUpon>ucEditorController.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucMenusUibEditor.cs">
+    <Compile Include="UI\Editors\Uib\Menus\ucMenusUibEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucMenusUibEditor.Designer.cs">
+    <Compile Include="UI\Editors\Uib\Menus\ucMenusUibEditor.Designer.cs">
       <DependentUpon>ucMenusUibEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\ucTextUibEditor.cs">
+    <Compile Include="UI\Editors\Uib\Text\ucTextUibEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\ucTextUibEditor.Designer.cs">
+    <Compile Include="UI\Editors\Uib\Text\ucTextUibEditor.Designer.cs">
       <DependentUpon>ucTextUibEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Util\DrawingControlExt.cs" />
@@ -170,31 +220,60 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Bin\Colours\ucColoursBinEditor.resx">
+      <DependentUpon>ucColoursBinEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Resources\ImportResourceForm.resx">
+      <DependentUpon>ImportResourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Resources\ExportResourceForm.resx">
+      <DependentUpon>ExportResourceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\MainEditor.resx">
       <DependentUpon>MainEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucResourceEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Uib\Campaign\CampaignCommonPanel.resx">
+      <DependentUpon>CampaignCommonPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Objects\PaletteView.resx">
+      <DependentUpon>PaletteView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Objects\ResourcePreview.resx">
+      <DependentUpon>ResourcePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Uib\Campaign\CampaignRegionPanel.resx">
+      <DependentUpon>CampaignRegionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\ucEditorSelector.resx">
+      <DependentUpon>ucEditorSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Bin\Palette\ucPaletteBinEditor.resx">
+      <DependentUpon>ucPaletteBinEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editors\Resources\ucResourceEditor.resx">
       <DependentUpon>ucResourceEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucTemplatesBinEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Bin\Templates\ucTemplatesBinEditor.resx">
       <DependentUpon>ucTemplatesBinEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucCampaignUibEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Uib\Campaign\ucCampaignUibEditor.resx">
       <DependentUpon>ucCampaignUibEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucColourUibEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Uib\Colours\ucColourUibEditor.resx">
       <DependentUpon>ucColourUibEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucEditor.resx">
-      <DependentUpon>ucEditor.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Editors\ucEditorController.resx">
+      <DependentUpon>ucEditorController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucMenusUibEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Uib\Menus\ucMenusUibEditor.resx">
       <DependentUpon>ucMenusUibEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\ucTextUibEditor.resx">
+    <EmbeddedResource Include="UI\Editors\Uib\Text\ucTextUibEditor.resx">
       <DependentUpon>ucTextUibEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -239,11 +318,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Add_32x32.png" />
+    <Content Include="Resources\Left_32x32.png" />
+    <Content Include="Resources\Right_32x32.png" />
     <None Include="Resources\Tile.png" />
     <None Include="Resources\Subtract_32x32.png" />
     <None Include="Resources\Down_32x32.png" />
     <None Include="Resources\Up_32x32.png" />
     <None Include="Resources\Edit_32x32.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

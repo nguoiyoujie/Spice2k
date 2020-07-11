@@ -17,5 +17,8 @@ namespace Dune2000.Editor.Util
     public static float2 ToFloat2(this Size value) { return new float2(value.Width, value.Height); }
     public static float2 ToFloat2(this PointF value) { return new float2(value.X, value.Y); }
     public static float2 ToFloat2(this SizeF value) { return new float2(value.Width, value.Height); }
+
+    public static int2 ToInt2(this Point value) { return new int2(value.X, value.Y); }
+    public static int2 ToInt2(this Size value) { return new int2(value.Width, value.Height); }
   }
 }

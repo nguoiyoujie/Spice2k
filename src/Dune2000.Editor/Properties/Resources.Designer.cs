@@ -93,6 +93,16 @@ namespace Dune2000.Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Left_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Left_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Log_Out_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Log_Out_32x32", resourceCulture);
@@ -136,6 +146,16 @@ namespace Dune2000.Editor.Properties {
         internal static System.Drawing.Bitmap Refresh_32x32 {
             get {
                 object obj = ResourceManager.GetObject("Refresh_32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Right_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Right_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -11,8 +11,11 @@ namespace Dune2000.Structs.R16
   public enum PaletteType : byte
   {
     EMPTY_ENTRY = 0, // No image data is stored here. Skip and proceed to the next entry.
-    EMBEDDED_PALETTE = 1,
-    REFERENCED_PALETTE = 2
+    BASE_PALETTE = 1,
+    EMBEDDED_PALETTE = 2,
+    REFERENCED_PALETTE = 3,
+    HIGH_COLOR = 4,
+    INVALID = 5
   }
 
   public class ResourceElement
@@ -21,13 +24,55 @@ namespace Dune2000.Structs.R16
     // An image sits within this frame, at an offset [ImageOffset] and with its own size [ImageSize].
     // ... unless this is an empty entry, then the whole element is represented by a single zero byte.
 
-    public PaletteType PaletteType;
+    public PaletteType PaletteType
+    {
+      get
+      {
+        if (FirstByte == 0)
+        {
+          return PaletteType.EMPTY_ENTRY;
+        }
+        else if (BitsPerPixel == 8)
+        {
+          // all 8-bits reference a palette
+          if (PaletteHandle == 0)
+          {
+            return PaletteType.BASE_PALETTE;
+          }
+          else
+          {
+            if (FirstByte == 1)
+            {
+              return PaletteType.EMBEDDED_PALETTE;
+            }
+            else if (FirstByte == 2)
+            {
+              return PaletteType.REFERENCED_PALETTE;
+            }
+            else
+            {
+              // Game Error: SetTImageToResource, Invalid Flag
+              return PaletteType.INVALID;
+            }
+          }
+        }
+        else if (BitsPerPixel == 16)
+        {
+          // Don't care about FirstByte (invalid values do not lead to error
+          return PaletteType.HIGH_COLOR;
+        }
+
+        return PaletteType.INVALID;
+      }
+    }
+
+    public byte FirstByte;
     public int ImageWidth;
     public int ImageHeight;
     public int ImageOffsetX;
     public int ImageOffsetY;
-    public int ImageHandle;   // function unknown
-    public int PaletteHandle; // function unknown
+    public int ImageHandle;   // function unknown, must not be 0. If zero, Game Error: SetTImageToResource, Invalid Palette
+    public int PaletteHandle; // function unknown, must not be 0. If zero, Game Error: SetTImageToResource, Error
 
     public byte BitsPerPixel;
     public byte FrameWidth;
@@ -37,7 +82,7 @@ namespace Dune2000.Structs.R16
 
     // for resources that include their own palette
     public int Memory; // function unknown
-    public int PaletteHandle2;// function unknown
+    public int PaletteHandle2; // function unknown
     public Palette_15Bit Palette;
 
     public bool IsEmpty { get { return PaletteType == PaletteType.EMPTY_ENTRY; } }
@@ -47,12 +92,12 @@ namespace Dune2000.Structs.R16
 
     public void Read(BinaryReader reader, ref Palette_15Bit currentPalette)
     {
-      PaletteType = (PaletteType)reader.ReadByte();
-      if (PaletteType == PaletteType.EMPTY_ENTRY)
+      FirstByte = reader.ReadByte();
+      if (FirstByte == 0)
       {
         // no data. All else is irrelevant. The whole resource is 1 byte of zero.
         return;
-      }
+      } 
 
       ImageWidth = reader.ReadInt32();
       ImageHeight = reader.ReadInt32();
@@ -88,9 +133,9 @@ namespace Dune2000.Structs.R16
 
       if (PaletteHandle == 0)
       {
-        // use the base palette?
+
       }
-      else
+      if (PaletteHandle != 0)
       {
         if (BitsPerPixel == 8)
         {
@@ -110,6 +155,8 @@ namespace Dune2000.Structs.R16
       }
     }
 
+
+
     public void Write(BinaryWriter writer, ref Palette_15Bit prevPalette)
     {
       if (PaletteType == PaletteType.EMPTY_ENTRY)
@@ -121,20 +168,20 @@ namespace Dune2000.Structs.R16
 
       if (PaletteHandle == 0)
       {
-        // base palette, just set the type and don't write another palette data in
-        PaletteType = PaletteType.EMBEDDED_PALETTE;
+        // base palette or high color (16-bit). Any non-zero value permitted. Fix this to 1
+        FirstByte = 1;
       }
-      else if (prevPalette.Equals(Palette)) 
-      { 
-        PaletteType = PaletteType.REFERENCED_PALETTE;
+      else if (prevPalette.Equals(Palette))
+      {
+        FirstByte = 2;
       }
       else
       {
-        PaletteType = PaletteType.EMBEDDED_PALETTE;
+        FirstByte = 1;
         prevPalette = Palette; // for the next entry
       }
 
-      writer.Write((byte)PaletteType);
+      writer.Write(FirstByte);
       writer.Write(ImageWidth);
       writer.Write(ImageHeight);
       writer.Write(ImageOffsetX);
@@ -149,6 +196,8 @@ namespace Dune2000.Structs.R16
 
       if (PaletteType == PaletteType.EMBEDDED_PALETTE)
       {
+        writer.Write(Memory);
+        writer.Write(PaletteHandle2);
         Palette.Write(writer);
       }
     }

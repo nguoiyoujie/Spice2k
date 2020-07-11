@@ -1,5 +1,4 @@
-﻿using Dune2000.Enums;
-using Dune2000.Structs.Bin.Templates;
+﻿using Dune2000.Structs.Bin.Templates;
 using Primrose.FileFormats.Common;
 using System.IO;
 using System.Runtime.InteropServices;

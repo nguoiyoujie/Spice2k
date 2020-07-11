@@ -39,7 +39,7 @@ namespace Dune2000.Launcher.UI.UserControls
     public override void Activate(Engine e, Control prevControl)
     {
       // disable Conquest Mode for now
-      spConquest.Enabled = false;
+      spConquest.Visible = false;
     }
 
     public override void Link(GameForm f)
