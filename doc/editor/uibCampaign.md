@@ -1,9 +1,9 @@
 
-[Return to Editor index](doc/editor.md)
+[Return to Editor index](../editor.md)
 
 ### UI Single Player Campaign Editor
 
-![Image](img/uibCampaign.png)
+![Image](img/uibCampaign.PNG)
 
 Unlike other UI files, the campaign UI file is uniquely formatted. The campaign UI file determines how the campaign world map is generated. It also controls some aspects of the single-player game such as the initial theme and score.
 
@@ -23,14 +23,14 @@ Each editor offers the following basic controls, in order from left to right:
 
  - Search: Not available in this editor.
 
-![Image](img/editorControls.png)
+![Image](img/editorControls.PNG)
 
 #### Editor State and Unsaved Changes
 
 The color of the tab and title bar indicates if you have unsaved changes (which you will be warned about if the program attempts to close it without saving)
 The blue color indicates an opened file without unsaved changes, and the green color indicates the presence of unsaved changes.
 
-![Image](img/editorStates.png)
+![Image](img/editorStates.PNG)
 
 #### Editing
 
@@ -40,7 +40,7 @@ Changes are preserved between switching houses and scenarios.
 #### Preview
 
 To preview your changes, select one of the buttons in the preview screen to view the map state at that point.
-![Image](img/uibCampaign_preview.png)
+![Image](img/uibCampaign_preview.PNG)
 
 
 

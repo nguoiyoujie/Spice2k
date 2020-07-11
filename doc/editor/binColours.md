@@ -3,7 +3,7 @@
 
 ### House Palette Editor
 
-![Image](img/binColours.png)
+![Image](img/binColours.PNG)
 
 The Dune 2000 color palette is a palette carrying 15-bit color information. Each set of 16 colors represent a house color, and is rendered with sprites of units and buildings alike.
 
@@ -25,14 +25,14 @@ Each editor offers the following basic controls, in order from left to right:
 
  - Search: Not available in this editor.
 
-![Image](img/editorControls.png)
+![Image](img/editorControls.PNG)
 
 #### Editor State and Unsaved Changes
 
 The color of the tab and title bar indicates if you have unsaved changes (which you will be warned about if the program attempts to close it without saving)
 The blue color indicates an opened file without unsaved changes, and the green color indicates the presence of unsaved changes.
 
-![Image](img/editorStates.png)
+![Image](img/editorStates.PNG)
 
 #### Editing
 
@@ -43,7 +43,7 @@ For files containing more than 16 houses, navigate between different palette sec
 
 For more convenient copying of color information, you may extract part of the palette in text. The process is the same as that of the Palette editor.
 
-![Image](img/binPalette_copyAsText.png)
+![Image](img/binPalette_copyAsText.PNG)
 
  - First, select the desired colors to copy by specifying the start and end index. The palette will reveal green boxes around the color to indicate selection.
 
