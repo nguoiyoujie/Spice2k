@@ -3,7 +3,7 @@
 
 The UI editor offers editing capabilities for several game data files.
 
-![Image](editor/img/overview.png)
+![Image](editor/img/overview.PNG)
 
 ### UI Table Editor
 
