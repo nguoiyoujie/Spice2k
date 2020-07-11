@@ -7,7 +7,7 @@
 
 The Dune 2000 main palette is a palette carrying 256 18-bit colors, used for the rendering of many images.
 
-This editor can also handle palettes that are exported by the [Image Resources editor](doc/editor/r8r16.md), as they are exported in the same format.
+This editor can also handle palettes that are exported by the [Image Resources editor](r8r16.md), as they are exported in the same format.
 
 #### Editor Controls
 
