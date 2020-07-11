@@ -31,8 +31,8 @@ namespace Dune2000.Editor.UI.Forms
     private void InitializeComponent()
     {
       this.pEditor = new System.Windows.Forms.Panel();
-      this.ucEditorController = new ucEditorController();
-      this.ucEditorSelector1 = new ucEditorSelector();
+      this.ucEditorController = new Dune2000.Editor.UI.Editors.ucEditorController();
+      this.ucEditorSelector1 = new Dune2000.Editor.UI.Editors.ucEditorSelector();
       this.SuspendLayout();
       // 
       // pEditor
@@ -40,7 +40,7 @@ namespace Dune2000.Editor.UI.Forms
       this.pEditor.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pEditor.Location = new System.Drawing.Point(0, 173);
       this.pEditor.Name = "pEditor";
-      this.pEditor.Size = new System.Drawing.Size(944, 428);
+      this.pEditor.Size = new System.Drawing.Size(944, 588);
       this.pEditor.TabIndex = 5;
       // 
       // ucEditorController
@@ -65,7 +65,7 @@ namespace Dune2000.Editor.UI.Forms
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(944, 601);
+      this.ClientSize = new System.Drawing.Size(944, 761);
       this.Controls.Add(this.pEditor);
       this.Controls.Add(this.ucEditorController);
       this.Controls.Add(this.ucEditorSelector1);

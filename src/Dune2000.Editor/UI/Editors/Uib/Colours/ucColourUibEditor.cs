@@ -12,7 +12,9 @@ namespace Dune2000.Editor.UI.Editors.Uib.Colours
     public ucColourUibEditor()
     {
       InitializeComponent();
+
       _dgv = dgvTable;
+      _columns = new DataGridViewColumn[] { DcKey };
       _comparers.Default = new string[] { MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE };
       panel1.Enabled = false;
     }
@@ -24,7 +26,6 @@ namespace Dune2000.Editor.UI.Editors.Uib.Colours
 
     private ColourUibFile _uib = null;
 
-    public override object[] SearchKeys { get { return new DataGridViewColumn[] { DcKey }; } }
     public override string OpenFileFilter { get { return "Colours uib files|colours*.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
     public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
 

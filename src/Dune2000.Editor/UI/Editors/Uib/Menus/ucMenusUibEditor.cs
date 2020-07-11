@@ -14,6 +14,7 @@ namespace Dune2000.Editor.UI.Editors.Uib.Menus
     {
       InitializeComponent();
       _dgv = dgvTable;
+      _columns = new DataGridViewColumn[] { DcKey, DcMenu };
       _comparers.Default = new string[] { MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE };
 
       // translate the strings to values
@@ -42,7 +43,6 @@ namespace Dune2000.Editor.UI.Editors.Uib.Menus
     private readonly Registry<FadeAction, string> _fadeStr = new Registry<FadeAction, string>();
     private MenusUibFile _uib = null;
 
-    public override object[] SearchKeys { get { return new DataGridViewColumn[] { DcKey }; } }
     public override string OpenFileFilter { get { return "Menu uib files|menus*.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
     public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
 

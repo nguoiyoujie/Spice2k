@@ -11,6 +11,7 @@ namespace Dune2000.Editor.UI.Editors.Uib.Text
     {
       InitializeComponent();
       _dgv = dgvTable;
+      _columns = new DataGridViewColumn[] { DcKey, DcValue };
       _comparers.Default = new string[] { MATCH, CONTAINS, MATCH_IGNORECASE, CONTAINS_IGNORECASE };
       panel1.Enabled = false;
     }
@@ -22,7 +23,6 @@ namespace Dune2000.Editor.UI.Editors.Uib.Text
 
     private TextUibFile _uib = null;
 
-    public override object[] SearchKeys { get { return new DataGridViewColumn[] { DcKey }; } }
     public override string OpenFileFilter { get { return "Text uib files|*text*.uib;samples.uib|Dune 2000 uib files|*.uib|All files|*.*"; } }
     public override string SaveFileFilter { get { return "Dune 2000 uib files|*.uib|All files|*.*"; } }
 

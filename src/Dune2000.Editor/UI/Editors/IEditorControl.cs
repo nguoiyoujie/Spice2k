@@ -3,7 +3,7 @@
   public interface IEditorControl
   {
     bool SupportSearch { get; }
-    object[] SearchKeys { get; }
+    string[] SearchKeys { get; }
     string[] GetSearchComparers(int index);
 
     string OpenFileFilter { get; }

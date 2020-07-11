@@ -226,8 +226,8 @@
       this.tsSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.tscbKeyValue,
-            this.tstbSearch,
             this.tscbComparer,
+            this.tstbSearch,
             this.tsbSearchPrev,
             this.tsbSearchNext});
       this.tsSearch.Location = new System.Drawing.Point(0, 59);
@@ -253,8 +253,10 @@
       // 
       // tstbSearch
       // 
+      this.tstbSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
       this.tstbSearch.Name = "tstbSearch";
       this.tstbSearch.Size = new System.Drawing.Size(180, 25);
+      this.tstbSearch.TextChanged += new System.EventHandler(this.SearchOptionsChanged);
       // 
       // tscbComparer
       // 

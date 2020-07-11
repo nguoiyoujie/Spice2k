@@ -5,7 +5,7 @@ namespace Dune2000.Editor.UI.Editors
   public class EditorControl : UserControl, IEditorControl
   {
     public virtual bool SupportSearch { get { return false; } }
-    public virtual object[] SearchKeys { get { return null; } }
+    public virtual string[] SearchKeys { get { return null; } }
     public virtual string[] GetSearchComparers(int index) { return null; }
 
     public virtual string OpenFileFilter { get { return "All files|*.*"; } }
