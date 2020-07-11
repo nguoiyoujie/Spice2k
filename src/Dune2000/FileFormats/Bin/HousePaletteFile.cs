@@ -20,6 +20,7 @@ namespace Dune2000.FileFormats.Mis
     {
       using (FileStream fs = new FileStream(filePath, FileMode.Open))
       {
+        int bytesToRead = (int)fs.Length;
         Houses = (int)((fs.Length - 1) / 32 + 1); // 16 * 2 bytes per color
         //int sets = (int)((fs.Length - 1) / 256 + 1);
         //_palettes = new Palette_15Bit[sets];
@@ -27,7 +28,7 @@ namespace Dune2000.FileFormats.Mis
         {
           for (int i = 0; i < _palettes.Length; i++)
           {
-            _palettes[i].Read(reader);
+            bytesToRead -= _palettes[i].Read(reader, bytesToRead);
           }
         }
       }

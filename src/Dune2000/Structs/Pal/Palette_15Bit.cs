@@ -39,6 +39,18 @@ namespace Dune2000.Structs.Pal
       }
     }
 
+    public int Read(BinaryReader reader, int maxLength)
+    {
+      int count = Marshal.SizeOf(typeof(Palette_15Bit));
+      int len = count.Min(maxLength);
+      byte[] readBuffer = new byte[count];
+      reader.ReadBytes(len).CopyTo(readBuffer, 0);
+      GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
+      this = (Palette_15Bit)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Palette_15Bit));
+      handle.Free();
+      return len;
+    }
+
     public void Read(BinaryReader reader)
     {
       int count = Marshal.SizeOf(typeof(Palette_15Bit));
