@@ -11,7 +11,9 @@ The Dune2000 project has a namespace: Dune2000.Extensions, which do not relate t
 
 
 ## Dune2000.Editor
-For a test editor to experiment with data modification, see the Dune2000.Editor project.
+[Editor Manual](doc/editor.md)
+
+For a development editor to experiment with data modification, see the Dune2000.Editor project.
 
 
 ## Dune2000.Launcher
