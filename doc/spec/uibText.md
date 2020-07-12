@@ -5,9 +5,9 @@
 
 Key  | Value
 --- | ---
-File Location(s)  | .\data\UI_DATA\text.uib
- | .\data\UI_DATA\text{0}.uib
- | .\data\UI_DATA\samples.uib
+File Location | .\data\UI_DATA\text.uib
+Alt File Location | .\data\UI_DATA\text{0}.uib
+Alt File Location | .\data\UI_DATA\samples.uib
 File Size | Variable
 Description  | Maps a key to a text entry for the game's reference
 
