@@ -1,3 +1,6 @@
+
+[Return to Editor index](../editor.md)
+
 ## Campaign UI Binary
 
 Key  | Value
