@@ -83,7 +83,7 @@ Offset(h) | Data Type | Name | Description
 
 ### Campaign Flow Pseudocode
 
-```
+```C#
 CampaignSequence(int playerHouseID, int MissionID)
 {
   // Inherit all changes up to and not including the previous mission
