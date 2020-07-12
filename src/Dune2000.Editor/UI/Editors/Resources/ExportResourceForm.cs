@@ -3,6 +3,7 @@ using Dune2000.Enums;
 using Dune2000.FileFormats.Mis;
 using Dune2000.FileFormats.R16;
 using Dune2000.Structs.Pal;
+using Dune2000.Util.Palette;
 using Primrose.Primitives.Extensions;
 using System;
 using System.Collections.Generic;
@@ -89,9 +90,16 @@ namespace Dune2000.Editor.UI.Editors.Resources
         bool transparency = cbTransparency.Checked;
         int houseIndex = cboxHousePal.Checked ? cbHouse.SelectedIndex : -1;
         Directory.CreateDirectory(tbDirectory.Text);
+        IPalette pal = _palette.Palette;
+
+        if (PaletteUtil.HasNonUniqueSpecialIndices(ref pal, out byte[] affected))
+        {
+          MessageBox.Show("The palette has some special indices that are mapped to the same colors as other indices. This may give incorrect results when re-importing.\n\n" +
+                          "Affected indices: {0}".F(string.Join(",", affected)));
+        }
+
         Task t = Task.Factory.StartNew(() =>
         {
-          IPalette pal = _palette.Palette;
           string format = Path.Combine(tbDirectory.Text, tbFormat.Text);
           if (exportAll)
           {

@@ -6,7 +6,7 @@ namespace Dune2000.FileFormats.Mis
 {
   public struct PaletteFile : IFile
   {
-    public Palette_24Bit_64 Palette;
+    public Palette_18Bit Palette;
 
     public void ReadFromFile(string filePath)
     {

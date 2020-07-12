@@ -38,13 +38,13 @@
       this.label2 = new System.Windows.Forms.Label();
       this.tbFormat = new System.Windows.Forms.TextBox();
       this.label3 = new System.Windows.Forms.Label();
-      this.cbSelectAll = new System.Windows.Forms.CheckBox();
       this.lblFormat = new System.Windows.Forms.Label();
       this.fbdExport = new System.Windows.Forms.FolderBrowserDialog();
       this.cboxHousePal = new System.Windows.Forms.CheckBox();
       this.cbHouse = new System.Windows.Forms.ComboBox();
       this.cbTransparency = new System.Windows.Forms.CheckBox();
       this.pbPreview = new Dune2000.Editor.UI.Objects.ResourcePreview();
+      this.cbSelectAll = new System.Windows.Forms.CheckBox();
       this.gEntries.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
       this.SuspendLayout();
@@ -144,18 +144,6 @@
       this.label3.TabIndex = 69;
       this.label3.Text = "File Name Pattern";
       // 
-      // cbSelectAll
-      // 
-      this.cbSelectAll.AutoSize = true;
-      this.cbSelectAll.Location = new System.Drawing.Point(18, 394);
-      this.cbSelectAll.Name = "cbSelectAll";
-      this.cbSelectAll.Size = new System.Drawing.Size(70, 17);
-      this.cbSelectAll.TabIndex = 70;
-      this.cbSelectAll.Text = "Export All";
-      this.cbSelectAll.ThreeState = true;
-      this.cbSelectAll.UseVisualStyleBackColor = true;
-      this.cbSelectAll.CheckedChanged += new System.EventHandler(this.cbSelectAll_CheckedChanged);
-      // 
       // lblFormat
       // 
       this.lblFormat.Location = new System.Drawing.Point(286, 68);
@@ -210,6 +198,18 @@
       this.pbPreview.TabStop = false;
       this.pbPreview.Zoom = 0F;
       // 
+      // cbSelectAll
+      // 
+      this.cbSelectAll.Appearance = System.Windows.Forms.Appearance.Button;
+      this.cbSelectAll.AutoSize = true;
+      this.cbSelectAll.Location = new System.Drawing.Point(18, 391);
+      this.cbSelectAll.Name = "cbSelectAll";
+      this.cbSelectAll.Size = new System.Drawing.Size(61, 23);
+      this.cbSelectAll.TabIndex = 70;
+      this.cbSelectAll.Text = "Select All";
+      this.cbSelectAll.UseVisualStyleBackColor = true;
+      this.cbSelectAll.CheckedChanged += new System.EventHandler(this.cbSelectAll_CheckedChanged);
+      // 
       // ExportResourceForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,11 +253,11 @@
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox tbFormat;
     private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.CheckBox cbSelectAll;
     private System.Windows.Forms.Label lblFormat;
     private System.Windows.Forms.FolderBrowserDialog fbdExport;
     private System.Windows.Forms.CheckBox cboxHousePal;
     private System.Windows.Forms.ComboBox cbHouse;
     private System.Windows.Forms.CheckBox cbTransparency;
+    private System.Windows.Forms.CheckBox cbSelectAll;
   }
 }

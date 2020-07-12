@@ -29,7 +29,7 @@ namespace Dune2000.Editor.UI.Editors.Bin.Palette
 
     public override void Unload()
     {
-      pbPalette.Palette = new Palette_24Bit_64();
+      pbPalette.Palette = new Palette_18Bit();
       tbText.Text = "";
       _dirty = false;
       _path = null;
@@ -68,7 +68,7 @@ namespace Dune2000.Editor.UI.Editors.Bin.Palette
 
     public override bool SaveFile(string path)
     {
-      _pal.Palette = (Palette_24Bit_64)(pbPalette.Palette);
+      _pal.Palette = (Palette_18Bit)(pbPalette.Palette);
       _pal.WriteToFile(path);
       _dirty = false;
       _path = path;

@@ -105,53 +105,23 @@ namespace Dune2000.Editor.UI.Editors.Resources
         switch (_choice)
         {
           case PaletteChoice.BASE:
-            ImportImageDataAs8Bit(_basePalette, true, out _);
+            ResourceElement.ImportImageDataAs8Bit(_bitmap, _basePalette, true, out _);
             break;
 
           case PaletteChoice.USER:
-            ImportImageDataAs8Bit(UserPalette, false, out _);
+            ResourceElement.ImportImageDataAs8Bit(_bitmap, UserPalette, false, out _);
             break;
 
           case PaletteChoice.EXISTING:
-            ImportImageDataAs8Bit(PrevPalette, false, out _);
+            ResourceElement.ImportImageDataAs8Bit(_bitmap, PrevPalette, false, out _);
             break;
         }
       }
       else
       {
-        ImportImageDataAs15Bit();
+        ResourceElement.ImportImageDataAs15Bit(_bitmap);
       }
       RedrawImage();
-    }
-
-    private void ImportImageDataAs15Bit()
-    {
-      if (_bitmap == null) { return; }
-
-      ResourceElement = new ResourceElement
-      {
-        BitsPerPixel = 16,
-        FirstByte = 1,
-        ImageWidth = _bitmap.Width,
-        ImageHeight = _bitmap.Height,
-        ImageOffset = default,
-        FrameWidth = (byte)_bitmap.Width,
-        FrameHeight = (byte)_bitmap.Height,
-        ImageHandle = 1,
-        PaletteHandle = 1,
-        ImageData = new byte[_bitmap.Width * _bitmap.Height * 2]
-      };
-
-      for (int x = 0; x < ResourceElement.ImageWidth; x++)
-        for (int y = 0; y < ResourceElement.ImageHeight; y++)
-        {
-          Color pixel = _bitmap.GetPixel(x, y);
-          ushort data16 = Palette_15Bit.ConvertColor(pixel);
-          int pos = (x + y * ResourceElement.ImageWidth) * 2;
-          byte[] b = BitConverter.GetBytes(data16);
-          ResourceElement.ImageData[pos] = b[0];
-          ResourceElement.ImageData[pos + 1] = b[1];
-        }
     }
 
     public void Reset()
@@ -162,45 +132,6 @@ namespace Dune2000.Editor.UI.Editors.Resources
       pbPalette.Palette = default;
       cb8Bit.Checked = false;
       _choice = PaletteChoice.EXISTING;
-    }
-
-    private void ImportImageDataAs8Bit(IPalette palette, bool isBasePalette, out int difference)
-    {
-      difference = 0;
-      if (_bitmap == null) { return; }
-
-      ResourceElement = new ResourceElement
-      {
-        BitsPerPixel = 8,
-        FirstByte = 1,
-        ImageWidth = _bitmap.Width,
-        ImageHeight = _bitmap.Height,
-        ImageOffset = default,
-        FrameWidth = (byte)_bitmap.Width,
-        FrameHeight = (byte)_bitmap.Height,
-        ImageHandle = 1,
-        PaletteHandle = isBasePalette ? 0 : 1,
-        ImageData = new byte[_bitmap.Width * _bitmap.Height]
-      };
-
-      for (int x = 0; x < ResourceElement.ImageWidth; x++)
-        for (int y = 0; y < ResourceElement.ImageHeight; y++)
-        {
-          Color pixel = _bitmap.GetPixel(x, y);
-          int idata8 = palette.GetClosestIndexFromColor(pixel, out int d);
-          difference += d;
-          byte data8 = (byte)(idata8.Clamp(0, byte.MaxValue));
-          int pos = x + y * ResourceElement.ImageWidth;
-          ResourceElement.ImageData[pos] = data8;
-        }
-
-      if (!isBasePalette)
-      {
-        for (int i = 0; i < 256; i++)
-        {
-          ResourceElement.Palette.Set(i, palette.Get(i));
-        }
-      }
     }
 
     private void bOpenImage_Click(object sender, EventArgs e)

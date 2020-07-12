@@ -79,7 +79,7 @@
       this.bRemove = new System.Windows.Forms.Button();
       this.bAdd = new System.Windows.Forms.Button();
       this.panel3 = new System.Windows.Forms.Panel();
-      this.bExport = new System.Windows.Forms.Button();
+      this.bExportImage = new System.Windows.Forms.Button();
       this.panel6 = new System.Windows.Forms.Panel();
       this.lblHouseColor = new System.Windows.Forms.Label();
       this.bLinkHouseColor = new System.Windows.Forms.Button();
@@ -93,6 +93,9 @@
       this.ofdHousePalette = new System.Windows.Forms.OpenFileDialog();
       this.sfdExportPalette = new System.Windows.Forms.SaveFileDialog();
       this.ofdImportPalette = new System.Windows.Forms.OpenFileDialog();
+      this.bReplace = new System.Windows.Forms.Button();
+      this.bExportData = new System.Windows.Forms.Button();
+      this.bImportData = new System.Windows.Forms.Button();
       this.panel1.SuspendLayout();
       this.panel10.SuspendLayout();
       this.pPreview.SuspendLayout();
@@ -121,12 +124,10 @@
       this.panel1.AutoScroll = true;
       this.panel1.Controls.Add(this.panel10);
       this.panel1.Controls.Add(this.panel3);
-      this.panel1.Controls.Add(this.panel6);
-      this.panel1.Controls.Add(this.panel5);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panel1.Location = new System.Drawing.Point(0, 60);
+      this.panel1.Location = new System.Drawing.Point(0, 110);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(960, 648);
+      this.panel1.Size = new System.Drawing.Size(960, 598);
       this.panel1.TabIndex = 5;
       // 
       // panel10
@@ -136,7 +137,7 @@
       this.panel10.Controls.Add(this.panel4);
       this.panel10.Controls.Add(this.pRegion);
       this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.panel10.Location = new System.Drawing.Point(0, 85);
+      this.panel10.Location = new System.Drawing.Point(0, 35);
       this.panel10.MinimumSize = new System.Drawing.Size(0, 560);
       this.panel10.Name = "panel10";
       this.panel10.Size = new System.Drawing.Size(960, 563);
@@ -147,9 +148,9 @@
       // 
       this.pPreview.Controls.Add(this.gImage);
       this.pPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.pPreview.Location = new System.Drawing.Point(150, 0);
+      this.pPreview.Location = new System.Drawing.Point(170, 0);
       this.pPreview.Name = "pPreview";
-      this.pPreview.Size = new System.Drawing.Size(570, 563);
+      this.pPreview.Size = new System.Drawing.Size(550, 563);
       this.pPreview.TabIndex = 65;
       // 
       // gImage
@@ -609,7 +610,7 @@
       this.pRegion.Dock = System.Windows.Forms.DockStyle.Left;
       this.pRegion.Location = new System.Drawing.Point(0, 0);
       this.pRegion.Name = "pRegion";
-      this.pRegion.Size = new System.Drawing.Size(150, 563);
+      this.pRegion.Size = new System.Drawing.Size(170, 563);
       this.pRegion.TabIndex = 63;
       // 
       // gEntries
@@ -619,7 +620,7 @@
       this.gEntries.Dock = System.Windows.Forms.DockStyle.Fill;
       this.gEntries.Location = new System.Drawing.Point(0, 0);
       this.gEntries.Name = "gEntries";
-      this.gEntries.Size = new System.Drawing.Size(150, 563);
+      this.gEntries.Size = new System.Drawing.Size(170, 563);
       this.gEntries.TabIndex = 57;
       this.gEntries.TabStop = false;
       this.gEntries.Text = "Entries";
@@ -630,7 +631,7 @@
       this.lboxItems.FormattingEnabled = true;
       this.lboxItems.Location = new System.Drawing.Point(3, 48);
       this.lboxItems.Name = "lboxItems";
-      this.lboxItems.Size = new System.Drawing.Size(144, 512);
+      this.lboxItems.Size = new System.Drawing.Size(164, 512);
       this.lboxItems.TabIndex = 0;
       this.lboxItems.SelectedIndexChanged += new System.EventHandler(this.lboxItems_SelectedIndexChanged);
       // 
@@ -639,11 +640,12 @@
       this.panel7.Controls.Add(this.bMoveDown);
       this.panel7.Controls.Add(this.bMoveUp);
       this.panel7.Controls.Add(this.bRemove);
+      this.panel7.Controls.Add(this.bReplace);
       this.panel7.Controls.Add(this.bAdd);
       this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
       this.panel7.Location = new System.Drawing.Point(3, 16);
       this.panel7.Name = "panel7";
-      this.panel7.Size = new System.Drawing.Size(144, 32);
+      this.panel7.Size = new System.Drawing.Size(164, 32);
       this.panel7.TabIndex = 1;
       // 
       // bMoveDown
@@ -651,7 +653,7 @@
       this.bMoveDown.BackgroundImage = global::Dune2000.Editor.Properties.Resources.Down_32x32;
       this.bMoveDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
       this.bMoveDown.Dock = System.Windows.Forms.DockStyle.Right;
-      this.bMoveDown.Location = new System.Drawing.Point(80, 0);
+      this.bMoveDown.Location = new System.Drawing.Point(100, 0);
       this.bMoveDown.Name = "bMoveDown";
       this.bMoveDown.Size = new System.Drawing.Size(32, 32);
       this.bMoveDown.TabIndex = 2;
@@ -662,7 +664,7 @@
       this.bMoveUp.BackgroundImage = global::Dune2000.Editor.Properties.Resources.Up_32x32;
       this.bMoveUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
       this.bMoveUp.Dock = System.Windows.Forms.DockStyle.Right;
-      this.bMoveUp.Location = new System.Drawing.Point(112, 0);
+      this.bMoveUp.Location = new System.Drawing.Point(132, 0);
       this.bMoveUp.Name = "bMoveUp";
       this.bMoveUp.Size = new System.Drawing.Size(32, 32);
       this.bMoveUp.TabIndex = 2;
@@ -673,7 +675,7 @@
       this.bRemove.BackgroundImage = global::Dune2000.Editor.Properties.Resources.Subtract_32x32;
       this.bRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
       this.bRemove.Dock = System.Windows.Forms.DockStyle.Left;
-      this.bRemove.Location = new System.Drawing.Point(32, 0);
+      this.bRemove.Location = new System.Drawing.Point(64, 0);
       this.bRemove.Name = "bRemove";
       this.bRemove.Size = new System.Drawing.Size(32, 32);
       this.bRemove.TabIndex = 1;
@@ -692,30 +694,32 @@
       // 
       // panel3
       // 
-      this.panel3.Controls.Add(this.bExport);
+      this.panel3.Controls.Add(this.bImportData);
+      this.panel3.Controls.Add(this.bExportData);
+      this.panel3.Controls.Add(this.bExportImage);
       this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-      this.panel3.Location = new System.Drawing.Point(0, 50);
+      this.panel3.Location = new System.Drawing.Point(0, 0);
       this.panel3.Name = "panel3";
       this.panel3.Size = new System.Drawing.Size(960, 35);
       this.panel3.TabIndex = 62;
       // 
-      // bExport
+      // bExportImage
       // 
-      this.bExport.Dock = System.Windows.Forms.DockStyle.Left;
-      this.bExport.Location = new System.Drawing.Point(0, 0);
-      this.bExport.Name = "bExport";
-      this.bExport.Size = new System.Drawing.Size(100, 35);
-      this.bExport.TabIndex = 57;
-      this.bExport.Text = "Export";
-      this.bExport.UseVisualStyleBackColor = true;
-      this.bExport.Click += new System.EventHandler(this.bExport_Click);
+      this.bExportImage.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bExportImage.Location = new System.Drawing.Point(0, 0);
+      this.bExportImage.Name = "bExportImage";
+      this.bExportImage.Size = new System.Drawing.Size(100, 35);
+      this.bExportImage.TabIndex = 57;
+      this.bExportImage.Text = "Export Image(s)";
+      this.bExportImage.UseVisualStyleBackColor = true;
+      this.bExportImage.Click += new System.EventHandler(this.bExport_Click);
       // 
       // panel6
       // 
       this.panel6.Controls.Add(this.lblHouseColor);
       this.panel6.Controls.Add(this.bLinkHouseColor);
       this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-      this.panel6.Location = new System.Drawing.Point(0, 25);
+      this.panel6.Location = new System.Drawing.Point(0, 85);
       this.panel6.Name = "panel6";
       this.panel6.Size = new System.Drawing.Size(960, 25);
       this.panel6.TabIndex = 66;
@@ -745,7 +749,7 @@
       this.panel5.Controls.Add(this.lblPalette);
       this.panel5.Controls.Add(this.bLinkPalette);
       this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-      this.panel5.Location = new System.Drawing.Point(0, 0);
+      this.panel5.Location = new System.Drawing.Point(0, 60);
       this.panel5.Name = "panel5";
       this.panel5.Size = new System.Drawing.Size(960, 25);
       this.panel5.TabIndex = 65;
@@ -817,11 +821,46 @@
       // 
       this.ofdImportPalette.Filter = "Dune 2000 bin file|*.bin|All files|*.*";
       // 
+      // bReplace
+      // 
+      this.bReplace.BackgroundImage = global::Dune2000.Editor.Properties.Resources.Edit_32x32;
+      this.bReplace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+      this.bReplace.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bReplace.Location = new System.Drawing.Point(32, 0);
+      this.bReplace.Name = "bReplace";
+      this.bReplace.Size = new System.Drawing.Size(32, 32);
+      this.bReplace.TabIndex = 3;
+      this.bReplace.Click += new System.EventHandler(this.bReplace_Click);
+      // 
+      // bExportData
+      // 
+      this.bExportData.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bExportData.Location = new System.Drawing.Point(100, 0);
+      this.bExportData.Name = "bExportData";
+      this.bExportData.Size = new System.Drawing.Size(100, 35);
+      this.bExportData.TabIndex = 58;
+      this.bExportData.Text = "Export Data";
+      this.bExportData.UseVisualStyleBackColor = true;
+      this.bExportData.Click += new System.EventHandler(this.bExportData_Click);
+      // 
+      // bImportData
+      // 
+      this.bImportData.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bImportData.Location = new System.Drawing.Point(200, 0);
+      this.bImportData.Name = "bImportData";
+      this.bImportData.Size = new System.Drawing.Size(100, 35);
+      this.bImportData.TabIndex = 59;
+      this.bImportData.Text = "Import Data";
+      this.bImportData.UseVisualStyleBackColor = true;
+      this.bImportData.Click += new System.EventHandler(this.bImportData_Click);
+      // 
       // ucResourceEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.panel1);
+      this.Controls.Add(this.panel6);
+      this.Controls.Add(this.panel5);
       this.Controls.Add(this.panel2);
       this.Name = "ucResourceEditor";
       this.Size = new System.Drawing.Size(960, 708);
@@ -859,7 +898,7 @@
     private System.Windows.Forms.Panel panel2;
     private System.Windows.Forms.Label label22;
     private System.Windows.Forms.Label label23;
-    private System.Windows.Forms.Button bExport;
+    private System.Windows.Forms.Button bExportImage;
     private System.Windows.Forms.Panel pPreview;
     private System.Windows.Forms.Panel pRegion;
     private System.Windows.Forms.Panel panel3;
@@ -919,5 +958,8 @@
     private System.Windows.Forms.OpenFileDialog ofdImportPalette;
     private System.Windows.Forms.Button bRevertPalette;
     private System.Windows.Forms.Panel panel10;
+    private System.Windows.Forms.Button bReplace;
+    private System.Windows.Forms.Button bImportData;
+    private System.Windows.Forms.Button bExportData;
   }
 }

@@ -5,12 +5,14 @@ namespace Dune2000.Structs.Pal
 {
   public interface IPalette
   {
-    void Read(BinaryReader reader);
-    void Write(BinaryWriter writer);
     Color Get(int index);
     void Set(int index, Color color);
     void FromBitmap(Bitmap bitmap);
     Bitmap ToBitmap();
+    bool Contains(Color color);
+    int Count(Color color);
+    int IndexOf(Color color);
+    void CopyTo(ref IPalette target);
     int GetClosestIndexFromColor(Color color, out int difference);
   }
 }

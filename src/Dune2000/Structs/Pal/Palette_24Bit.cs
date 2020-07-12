@@ -7,6 +7,7 @@ namespace Dune2000.Structs.Pal
 {
   /// <summary>
   /// A palette with 256 indices, each mapped to a 24-bit color (True Color: https://en.wikipedia.org/wiki/Color_depth#True_color_(24-bit))
+  /// This version places RGB values into three bytes, with all 8 bits used per color byte (RRRRRRRRGGGGGGGGBBBBBBBB).
   /// </summary>
   [StructLayout(LayoutKind.Sequential, Size = 0x300)]
   public unsafe struct Palette_24Bit : IPalette, IEquatable<Palette_24Bit>
@@ -140,5 +141,38 @@ namespace Dune2000.Structs.Pal
       }
       return closest;
     }
-  }
+
+    public void CopyTo(ref IPalette target)
+    {
+      for (int i = 0; i < 256; i++)
+      {
+        target.Set(i, Get(i));
+      }
+    }
+
+    public bool Contains(Color color)
+    {
+      return IndexOf(color) != -1;
+    }
+
+    public int IndexOf(Color color)
+    {
+      for (int i = 0; i < 256; i++)
+      {
+        if (Get(i) == color)
+          return i;
+      }
+      return -1;
+    }
+ 
+    public int Count(Color color)
+    {
+      int ret = 0;
+      for (int i = 0; i < 256; i++)
+      {
+        if (Get(i) == color)
+          ret++;
+      }
+      return ret;
+    } }
 }

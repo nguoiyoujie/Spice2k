@@ -7,7 +7,7 @@
     <ProjectGuid>{422E93D1-72B3-4242-AC2A-A9213DF9D9E4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Dune2000.Launcher</RootNamespace>
-    <AssemblyName>Dune2000Launcher</AssemblyName>
+    <AssemblyName>Dune2000.Launcher</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -121,7 +121,6 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="UI\Enums.cs" />
-    <Compile Include="UI\EventDelegates.cs" />
     <Compile Include="UI\Forms\PopupForm.cs">
       <SubType>Form</SubType>
     </Compile>

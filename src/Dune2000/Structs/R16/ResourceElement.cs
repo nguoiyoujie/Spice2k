@@ -81,8 +81,8 @@ namespace Dune2000.Structs.R16
     public byte[] ImageData;
 
     // for resources that include their own palette
-    public int Memory; // function unknown
-    public int PaletteHandle2; // function unknown
+    public int Memory; // function unknown (can be 0)
+    public int PaletteHandle2; // function unknown, must not be 0. If zero, Game Error: SetTImageToResource, Invalid Palette
     public Palette_15Bit Palette;
 
     public bool IsEmpty { get { return PaletteType == PaletteType.EMPTY_ENTRY; } }
@@ -196,6 +196,8 @@ namespace Dune2000.Structs.R16
 
       if (PaletteType == PaletteType.EMBEDDED_PALETTE)
       {
+        if (Memory == 0) { Memory = 1; }
+        if (PaletteHandle2 == 0) { PaletteHandle2 = 1; }
         writer.Write(Memory);
         writer.Write(PaletteHandle2);
         Palette.Write(writer);
@@ -273,6 +275,72 @@ namespace Dune2000.Structs.R16
       else
       {
         return bmp;
+      }
+    }
+
+    public void ImportImageDataAs15Bit(Bitmap bitmap)
+    {
+      if (bitmap == null) { return; }
+
+      BitsPerPixel = 16;
+      FirstByte = 1;
+      ImageWidth = bitmap.Width;
+      ImageHeight = bitmap.Height;
+      ImageOffset = default;
+      FrameWidth = (byte)bitmap.Width;
+      FrameHeight = (byte)bitmap.Height;
+      ImageHandle = 1;
+      PaletteHandle = 1;
+      Memory = 1;
+      PaletteHandle2 = 1;
+      ImageData = new byte[bitmap.Width * bitmap.Height * 2];
+
+      for (int x = 0; x < ImageWidth; x++)
+        for (int y = 0; y < ImageHeight; y++)
+        {
+          Color pixel = bitmap.GetPixel(x, y);
+          ushort data16 = Palette_15Bit.ConvertColor(pixel);
+          int pos = (x + y * ImageWidth) * 2;
+          byte[] b = BitConverter.GetBytes(data16);
+          ImageData[pos] = b[0];
+          ImageData[pos + 1] = b[1];
+        }
+    }
+
+    public void ImportImageDataAs8Bit(Bitmap bitmap, IPalette palette, bool isBasePalette, out int difference)
+    {
+      difference = 0;
+      if (bitmap == null) { return; }
+
+      BitsPerPixel = 8;
+      FirstByte = 1;
+      ImageWidth = bitmap.Width;
+      ImageHeight = bitmap.Height;
+      ImageOffset = default;
+      FrameWidth = (byte)bitmap.Width;
+      FrameHeight = (byte)bitmap.Height;
+      ImageHandle = 1;
+      PaletteHandle = isBasePalette ? 0 : 1;
+      Memory = 1;
+      PaletteHandle2 = 1;
+      ImageData = new byte[bitmap.Width * bitmap.Height];
+
+      for (int x = 0; x < ImageWidth; x++)
+        for (int y = 0; y < ImageHeight; y++)
+        {
+          Color pixel = bitmap.GetPixel(x, y);
+          int idata8 = palette.GetClosestIndexFromColor(pixel, out int d);
+          difference += d;
+          byte data8 = (byte)(idata8.Clamp(0, byte.MaxValue));
+          int pos = x + y * ImageWidth;
+          ImageData[pos] = data8;
+        }
+
+      if (!isBasePalette)
+      {
+        IPalette p = Palette;
+        palette.CopyTo(ref p);
+        Palette = (Palette_15Bit)p;
       }
     }
   }
