@@ -7,7 +7,7 @@ Key  | Value
 --- | ---
 File Location | .\data\bin\palette.bin
 File Size | Exactly 768 bytes
-Description  | Defines 16 colors for each house index
+Description  | Defines 256 colors for indexed 8-bit images
 
 
 ---
