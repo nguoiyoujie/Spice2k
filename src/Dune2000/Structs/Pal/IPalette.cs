@@ -12,7 +12,7 @@ namespace Dune2000.Structs.Pal
     bool Contains(Color color);
     int Count(Color color);
     int IndexOf(Color color);
-    void CopyTo(ref IPalette target);
+    void Import(IPalette source);
     int GetClosestIndexFromColor(Color color, out int difference);
   }
 }

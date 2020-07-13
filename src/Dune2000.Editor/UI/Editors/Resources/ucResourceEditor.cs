@@ -31,9 +31,9 @@ namespace Dune2000.Editor.UI.Editors.Resources
       pbPreview.PixelClicked += PixelSelected;
     }
 
-    private ResourceFile _resource;
-    private PaletteFile _palette;
-    private HousePaletteFile _housePalette;
+    private ResourceFile _resourceFile;
+    private PaletteFile _paletteFile;
+    private HousePaletteFile _housePaletteFile;
 
     private ExportResourceForm _exportForm = new ExportResourceForm();
     private ExportDataResourceForm _exportDataForm = new ExportDataResourceForm();
@@ -77,28 +77,28 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void ReloadEntry()
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { BlankEntry(); return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { BlankEntry(); return; }
 
       _cpuEdit = true;
       RedrawImage();
 
-      if (_resource.Resources[index].BitsPerPixel != 8)
+      if (_resourceFile.Resources[index].BitsPerPixel != 8)
       {
         pbPalette.Palette = null;
       }
-      if (_resource.Resources[index].PaletteHandle == 0)
+      if (_resourceFile.Resources[index].PaletteHandle == 0)
       {
-        pbPalette.Palette = _palette.Palette;
+        pbPalette.Palette = _paletteFile.Palette.Clone();
       }
       else
       {
-        pbPalette.Palette = _resource.Resources[index].Palette;
+        pbPalette.Palette = _resourceFile.Resources[index].Palette.Clone();
       }
 
-      tbType.Text = GetPaletteTypeName(_resource.Resources[index].PaletteType);
+      tbType.Text = GetPaletteTypeName(_resourceFile.Resources[index].PaletteType);
 
-      if (_resource.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY)
+      if (_resourceFile.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY)
       {
         pbPreview.Preview?.Dispose();
         pbPreview.Preview = null;
@@ -117,16 +117,16 @@ namespace Dune2000.Editor.UI.Editors.Resources
       }
 
 
-      tbAlignment.Text = _resource.Resources[index].Alignment.ToString();
-      tbBitsPerPixel.Text = _resource.Resources[index].BitsPerPixel.ToString();
-      tbImageX.Text = _resource.Resources[index].ImageWidth.ToString();
-      tbImageY.Text = _resource.Resources[index].ImageHeight.ToString();
-      tbImageHandle.Text = _resource.Resources[index].ImageHandle.ToString();
-      tbPalHandle.Text = _resource.Resources[index].PaletteHandle.ToString();
+      tbAlignment.Text = _resourceFile.Resources[index].Alignment.ToString();
+      tbBitsPerPixel.Text = _resourceFile.Resources[index].BitsPerPixel.ToString();
+      tbImageX.Text = _resourceFile.Resources[index].ImageWidth.ToString();
+      tbImageY.Text = _resourceFile.Resources[index].ImageHeight.ToString();
+      tbImageHandle.Text = _resourceFile.Resources[index].ImageHandle.ToString();
+      tbPalHandle.Text = _resourceFile.Resources[index].PaletteHandle.ToString();
       pbPalette.SelectedIndices = null;
 
       // numerical up/down has restrictions.
-      int fwidth = _resource.Resources[index].FrameWidth;
+      int fwidth = _resourceFile.Resources[index].FrameWidth;
       if (fwidth != fwidth.Clamp((int)(nudFrameX.Minimum), (int)(nudFrameX.Maximum)))
       {
         MessageBox.Show("This resource entry has an invalid frame width. Expected: {0} - {1}. Received: {2}.".F(nudFrameX.Minimum, nudFrameX.Maximum, fwidth));
@@ -136,7 +136,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
         nudFrameX.Value = fwidth;
       }
 
-      int fheight = _resource.Resources[index].FrameHeight;
+      int fheight = _resourceFile.Resources[index].FrameHeight;
       if (fheight != fheight.Clamp((int)(nudFrameY.Minimum), (int)(nudFrameY.Maximum)))
       {
         MessageBox.Show("This resource entry has an invalid frame height. Expected: {0} - {1}. Received: {2}.".F(nudFrameY.Minimum, nudFrameY.Maximum, fheight));
@@ -146,7 +146,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
         nudFrameY.Value = fheight;
       }
 
-      int imgoffx = _resource.Resources[index].ImageOffsetX;
+      int imgoffx = _resourceFile.Resources[index].ImageOffsetX;
       if (imgoffx != imgoffx.Clamp((int)(nudImageOffsetX.Minimum), (int)(nudImageOffsetX.Maximum)))
       {
         MessageBox.Show("This resource entry has an invalid image X offset. Expected: {0} - {1}. Received: {2}.".F(nudImageOffsetX.Minimum, nudImageOffsetX.Maximum, imgoffx));
@@ -156,7 +156,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
         nudImageOffsetX.Value = imgoffx;
       }
 
-      int imgoffy = _resource.Resources[index].ImageOffsetY;
+      int imgoffy = _resourceFile.Resources[index].ImageOffsetY;
       if (imgoffy != imgoffy.Clamp((int)(nudImageOffsetY.Minimum), (int)(nudImageOffsetY.Maximum)))
       {
         MessageBox.Show("This resource entry has an invalid image Y offset. Expected: {0} - {1}. Received: {2}.".F(nudImageOffsetY.Minimum, nudImageOffsetY.Maximum, imgoffy));
@@ -173,15 +173,13 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void RedrawImage()
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { BlankEntry(); return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { BlankEntry(); return; }
 
       pbPreview.Preview?.Dispose();
-      IPalette pal = _palette.Palette;
-
-      pbPreview.BoundingBox = new Rectangle(_resource.Resources[index].ImageOffset.ToPoint(), _resource.Resources[index].ImageSize.ToSize());
-      pbPreview.Offset = _resource.Resources[index].ImageOffset;
-      pbPreview.Preview = _resource.Resources[index].GetBitmap(ref pal, ref _housePalette, true, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
+      pbPreview.BoundingBox = new Rectangle(_resourceFile.Resources[index].ImageOffset.ToPoint(), _resourceFile.Resources[index].ImageSize.ToSize());
+      pbPreview.Offset = _resourceFile.Resources[index].ImageOffset;
+      pbPreview.Preview = _resourceFile.Resources[index].GetBitmap(_paletteFile.Palette, _housePaletteFile, true, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
     }
 
     private void BlankEntry()
@@ -203,18 +201,18 @@ namespace Dune2000.Editor.UI.Editors.Resources
       gInfo.Enabled = false;
     }
 
-    private string GetListboxEntryText(int index) { return "{0}\t{1}x{2}".F(index, _resource.Resources[index].ImageWidth, _resource.Resources[index].ImageHeight); }
+    private string GetListboxEntryText(int index) { return "{0}\t{1}x{2}".F(index, _resourceFile.Resources[index].ImageWidth, _resourceFile.Resources[index].ImageHeight); }
 
     public override void Reload()
     {
-      if (_resource == null) { return; }
+      if (_resourceFile == null) { return; }
 
       // reload the whole file, since no clone exists on memory
       LoadFile(_path);
 
       lboxItems.Items.Clear();
       List<string> list = new List<string>();
-      for (int i = 0; i < _resource.Resources.Count; i++)
+      for (int i = 0; i < _resourceFile.Resources.Count; i++)
       {
         list.Add(GetListboxEntryText(i));
       }
@@ -228,9 +226,9 @@ namespace Dune2000.Editor.UI.Editors.Resources
     {
       try
       {
-        ResourceFile resource = new ResourceFile();
-        resource.ReadFromFile(path);
-        _resource = resource;
+        ResourceFile rfile = new ResourceFile();
+        rfile.ReadFromFile(path);
+        _resourceFile = rfile;
         _dirty = false;
         _path = path;
         return true;
@@ -244,7 +242,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
 
     public override bool SaveFile(string path)
     {
-      _resource.WriteToFile(path);
+      _resourceFile.WriteToFile(path);
       _dirty = false;
       _path = path;
       return true;
@@ -261,7 +259,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
       {
         PaletteFile pal = new PaletteFile();
         pal.ReadFromFile(path);
-        _palette = pal;
+        _paletteFile = pal;
         return true;
       }
       catch
@@ -277,7 +275,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
       {
         HousePaletteFile pal = new HousePaletteFile();
         pal.ReadFromFile(path);
-        _housePalette = pal;
+        _housePaletteFile = pal;
         return true;
       }
       catch
@@ -341,13 +339,13 @@ namespace Dune2000.Editor.UI.Editors.Resources
     {
       int index = lboxItems.SelectedIndex;
       // if invalid index, do nothing
-      if (index < 0 || index >= lboxItems.Items.Count - 1 || _resource == null) { return; }
+      if (index < 0 || index >= lboxItems.Items.Count - 1 || _resourceFile == null) { return; }
 
       _dirty = true;
-      ResourceElement element = _resource.Resources[index];
-      _resource.Resources.RemoveAt(index);
+      ResourceElement element = _resourceFile.Resources[index];
+      _resourceFile.Resources.RemoveAt(index);
 
-      _resource.Resources.Insert(index + 1, element);
+      _resourceFile.Resources.Insert(index + 1, element);
 
       // rename the list box elements
       lboxItems.Items[index] = GetListboxEntryText(index);
@@ -359,13 +357,13 @@ namespace Dune2000.Editor.UI.Editors.Resources
     {
       int index = lboxItems.SelectedIndex;
       // if invalid index, do nothing
-      if (index < 1 || index >= lboxItems.Items.Count || _resource == null) { return; }
+      if (index < 1 || index >= lboxItems.Items.Count || _resourceFile == null) { return; }
 
       _dirty = true;
-      ResourceElement element = _resource.Resources[index];
-      _resource.Resources.RemoveAt(index);
+      ResourceElement element = _resourceFile.Resources[index];
+      _resourceFile.Resources.RemoveAt(index);
 
-      _resource.Resources.Insert(index - 1, element);
+      _resourceFile.Resources.Insert(index - 1, element);
 
       // rename the list box elements
       lboxItems.Items[index] = GetListboxEntryText(index);
@@ -375,24 +373,24 @@ namespace Dune2000.Editor.UI.Editors.Resources
 
     private void bExport_Click(object sender, EventArgs e)
     {
-      _exportForm.Resource = _resource;
-      _exportForm.Palette = _palette;
-      _exportForm.HousePalette = _housePalette;
+      _exportForm.ResourceFile = _resourceFile;
+      _exportForm.BasePalette = _paletteFile.Palette;
+      _exportForm.HousePaletteFile = _housePaletteFile;
       _exportForm.ShowDialog();
     }
 
     private void bExportData_Click(object sender, EventArgs e)
     {
-      _exportDataForm.Resource = _resource;
-      _exportDataForm.Palette = _palette;
-      _exportDataForm.HousePalette = _housePalette;
+      _exportDataForm.ResourceFile = _resourceFile;
+      _exportDataForm.BasePalette = _paletteFile.Palette;
+      _exportDataForm.HousePaletteFile = _housePaletteFile;
       _exportDataForm.ShowDialog();
     }
 
     private void bImportData_Click(object sender, EventArgs e)
     {
-      _importDataForm.Resource = _resource;
-      _importDataForm.Palette = _palette;
+      _importDataForm.ResourceFile = _resourceFile;
+      _importDataForm.BasePalette = _paletteFile.Palette;
       if (_importDataForm.ShowDialog() == DialogResult.OK)
       {
         _dirty = true;
@@ -404,13 +402,13 @@ namespace Dune2000.Editor.UI.Editors.Resources
     {
       if (_cpuEdit) { return; }
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { BlankEntry(); return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { BlankEntry(); return; }
 
-      _resource.Resources[index].FrameWidth = (byte)(nudFrameX.Value);
-      _resource.Resources[index].FrameHeight = (byte)(nudFrameY.Value);
-      _resource.Resources[index].ImageOffsetX = (int)(nudImageOffsetX.Value);
-      _resource.Resources[index].ImageOffsetY = (int)(nudImageOffsetY.Value);
+      _resourceFile.Resources[index].FrameWidth = (byte)(nudFrameX.Value);
+      _resourceFile.Resources[index].FrameHeight = (byte)(nudFrameY.Value);
+      _resourceFile.Resources[index].ImageOffsetX = (int)(nudImageOffsetX.Value);
+      _resourceFile.Resources[index].ImageOffsetY = (int)(nudImageOffsetY.Value);
 
       _dirty = true;
       RedrawImage();
@@ -419,18 +417,18 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void PixelSelected(int2 pixel)
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { BlankEntry(); return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { BlankEntry(); return; }
 
-      if (_resource.Resources[index].BitsPerPixel == 8)
+      if (_resourceFile.Resources[index].BitsPerPixel == 8)
       {
         // convert frame dimensions to image dimensions
-        pixel -= (_resource.Resources[index].FrameSize - _resource.Resources[index].ImageSize) / 2;
+        pixel -= (_resourceFile.Resources[index].FrameSize - _resourceFile.Resources[index].ImageSize) / 2;
 
-        int i = pixel.x + pixel.y * _resource.Resources[index].ImageWidth;
-        if (i >= 0 && i < _resource.Resources[index].ImageData.Length)
+        int i = pixel.x + pixel.y * _resourceFile.Resources[index].ImageWidth;
+        if (i >= 0 && i < _resourceFile.Resources[index].ImageData.Length)
         {
-          int colorindex = _resource.Resources[index].ImageData[i];
+          int colorindex = _resourceFile.Resources[index].ImageData[i];
           pbPalette.SelectedIndices = new int[] { colorindex };
         }
         else
@@ -443,20 +441,20 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void bExportPalette_Click(object sender, EventArgs e)
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { return; }
 
-      if (_resource.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resource.Resources[index].PaletteType == PaletteType.INVALID)
+      if (_resourceFile.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resourceFile.Resources[index].PaletteType == PaletteType.INVALID)
       {
         MessageBox.Show("The resource entry does not contain a palette.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
       {
         MessageBox.Show("The resource entry is in 15-bit HighColor mode and does not contain a palette.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
       {
         MessageBox.Show("The resource entry uses the game's base palette and does not itself contain a palette.");
         return;
@@ -467,16 +465,12 @@ namespace Dune2000.Editor.UI.Editors.Resources
         try
         {
           PaletteFile paletteFile = new PaletteFile();
-          IPalette p = paletteFile.Palette;
-          pbPalette.Palette.CopyTo(ref p);
-
-          if (PaletteUtil.HasNonUniqueSpecialIndices(ref p, out byte[] affected))
+          paletteFile.Palette.Import(pbPalette.Palette);
+          if (paletteFile.Palette.HasNonUniqueSpecialIndices(out byte[] affected))
           {
             MessageBox.Show("The palette has some special indices that are mapped to the same colors as other indices. This may give incorrect results when importing images with this palette.\n\n" +
                             "Affected indices: {0}".F(string.Join(",", affected)));
           }
-
-          paletteFile.Palette = (Palette_18Bit)p;
 
           paletteFile.WriteToFile(sfdExportPalette.FileName);
           MessageBox.Show("Palette extracted successfully.");
@@ -491,20 +485,20 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void bImportPalette_Click(object sender, EventArgs e)
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { return; }
 
-      if (_resource.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resource.Resources[index].PaletteType == PaletteType.INVALID)
+      if (_resourceFile.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resourceFile.Resources[index].PaletteType == PaletteType.INVALID)
       {
         MessageBox.Show("The resource entry is empty and cannot be assigned a palette.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
       {
         MessageBox.Show("The resource entry is in 15-bit HighColor mode and cannot be assigned a palette.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
       {
         if (MessageBox.Show("The resource entry currently uses the game's base palette. Replace with an embedded palette?", "Confirm Import Palette", MessageBoxButtons.YesNo) != DialogResult.Yes)
         {
@@ -519,24 +513,21 @@ namespace Dune2000.Editor.UI.Editors.Resources
           PaletteFile paletteFile = new PaletteFile();
           paletteFile.ReadFromFile(ofdImportPalette.FileName);
 
-          IPalette p = _resource.Resources[index].Palette;
-          paletteFile.Palette.CopyTo(ref p);
-          if (PaletteUtil.HasNonUniqueSpecialIndices(ref p, out byte[] affected))
+          _resourceFile.Resources[index].Palette.Import(paletteFile.Palette);
+          if (_resourceFile.Resources[index].Palette.HasNonUniqueSpecialIndices(out byte[] affected))
           {
             MessageBox.Show("The palette has some special indices that are mapped to the same colors as other indices. This may give incorrect results when importing images with this palette.\n\n" +
                             "Affected indices: {0}".F(string.Join(",", affected)));
           }
 
-          _resource.Resources[index].Palette = (Palette_15Bit)p;
-
-          if (_resource.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
+          if (_resourceFile.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
           {
-            _resource.Resources[index].PaletteHandle = 1; // any non-zero number
-            _resource.Resources[index].Memory = 1; // any non-zero number
-            _resource.Resources[index].PaletteHandle2 = 1; // any non-zero number
+            _resourceFile.Resources[index].PaletteHandle = 1; // any non-zero number
+            _resourceFile.Resources[index].Memory = 1; // any non-zero number
+            _resourceFile.Resources[index].PaletteHandle2 = 1; // any non-zero number
           }
 
-          _resource.Resources[index].FirstByte = 1; // embedded
+          _resourceFile.Resources[index].FirstByte = 1; // embedded
           MessageBox.Show("Palette imported successfully.");
         }
         catch
@@ -551,20 +542,20 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void bRevertPalette_Click(object sender, EventArgs e)
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { return; }
 
-      if (_resource.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resource.Resources[index].PaletteType == PaletteType.INVALID)
+      if (_resourceFile.Resources[index].PaletteType == PaletteType.EMPTY_ENTRY || _resourceFile.Resources[index].PaletteType == PaletteType.INVALID)
       {
         MessageBox.Show("The resource entry does not contain a palette to revert.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.HIGH_COLOR)
       {
         MessageBox.Show("The resource entry is in 15-bit HighColor mode and does not contain a palette to revert.");
         return;
       }
-      else if (_resource.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
+      else if (_resourceFile.Resources[index].PaletteType == PaletteType.BASE_PALETTE)
       {
         MessageBox.Show("The resource entry is already using the base palette.");
         return;
@@ -578,7 +569,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
       try
       {
         // set to 0.
-        _resource.Resources[index].PaletteHandle = 0;
+        _resourceFile.Resources[index].PaletteHandle = 0;
 
         MessageBox.Show("Palette reverted successfully.");
       }
@@ -602,15 +593,15 @@ namespace Dune2000.Editor.UI.Editors.Resources
     {
       int index = lboxItems.SelectedIndex;
       // if invalid index, do nothing
-      if (index < 0 || index >= lboxItems.Items.Count || _resource == null) { return; }
+      if (index < 0 || index >= lboxItems.Items.Count || _resourceFile == null) { return; }
 
       _dirty = true;
-      _resource.Resources.RemoveAt(index);
+      _resourceFile.Resources.RemoveAt(index);
 
       // recreate index
       List<string> list = new List<string>();
       lboxItems.Items.Clear();
-      for (int i = 0; i < _resource.Resources.Count; i++)
+      for (int i = 0; i < _resourceFile.Resources.Count; i++)
       {
         list.Add(GetListboxEntryText(i));
       }
@@ -625,16 +616,16 @@ namespace Dune2000.Editor.UI.Editors.Resources
       if (index >= lboxItems.Items.Count) { index = lboxItems.Items.Count - 1; }
 
       // if invalid index, do nothing
-      if (index < 1 || index >= lboxItems.Items.Count || _resource == null) { return; }
+      if (index < 1 || index >= lboxItems.Items.Count || _resourceFile == null) { return; }
 
       _importForm.Reset();
-      _importForm.BasePalette = _palette.Palette;
+      _importForm.BasePalette = _paletteFile.Palette;
       _importForm.PrevPalette = pbPalette.Palette;
-      _importForm.HousePalette = _housePalette;
+      _importForm.HousePaletteFile = _housePaletteFile;
       if (_importForm.ShowDialog() == DialogResult.OK)
       {
         _dirty = true;
-        _resource.Resources[index] = _importForm.ResourceElement;
+        _resourceFile.Resources[index] = _importForm.ResourceElement;
 
         // rename item
         lboxItems.Items[index] = GetListboxEntryText(index);
@@ -648,21 +639,21 @@ namespace Dune2000.Editor.UI.Editors.Resources
       if (index >= lboxItems.Items.Count) { index = lboxItems.Items.Count - 1; }
 
       // if invalid index, do nothing
-      if (index < 1 || index >= lboxItems.Items.Count || _resource == null) { return; }
+      if (index < 1 || index >= lboxItems.Items.Count || _resourceFile == null) { return; }
 
       _importForm.Reset();
-      _importForm.BasePalette = _palette.Palette;
+      _importForm.BasePalette = _paletteFile.Palette;
       _importForm.PrevPalette = pbPalette.Palette;
-      _importForm.HousePalette = _housePalette;
+      _importForm.HousePaletteFile = _housePaletteFile;
       if (_importForm.ShowDialog() == DialogResult.OK)
       {
         _dirty = true;
-        _resource.Resources.Insert(index, _importForm.ResourceElement);
+        _resourceFile.Resources.Insert(index, _importForm.ResourceElement);
 
         // recreate index
         lboxItems.Items.Clear();
         List<string> list = new List<string>();
-        for (int i = 0; i < _resource.Resources.Count; i++)
+        for (int i = 0; i < _resourceFile.Resources.Count; i++)
         {
           list.Add(GetListboxEntryText(i));
         }

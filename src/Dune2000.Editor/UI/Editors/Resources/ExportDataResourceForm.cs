@@ -29,13 +29,11 @@ namespace Dune2000.Editor.UI.Editors.Resources
       UpdateItems();
     }
 
-    public ResourceFile Resource { get { return _resource; } set { if (_resource != value) { _resource = value; UpdateItems(); } } }
-    public PaletteFile Palette { get { return _palette; } set { _palette = value; } }
-    public HousePaletteFile HousePalette { get { return _housePalette; } set { _housePalette = value; } }
+    public ResourceFile ResourceFile { get { return _resource; } set { if (_resource != value) { _resource = value; UpdateItems(); } } }
+    public Palette_18Bit BasePalette { get; set; }
+    public HousePaletteFile HousePaletteFile { get; set; }
 
     private ResourceFile _resource;
-    private PaletteFile _palette;
-    private HousePaletteFile _housePalette;
 
     private void UpdateItems()
     {
@@ -59,16 +57,14 @@ namespace Dune2000.Editor.UI.Editors.Resources
       if (index < 0 || index >= _resource.Resources.Count) { return; }
 
       pbPreview.Preview?.Dispose();
-      IPalette pal = _palette.Palette;
-
       pbPreview.BoundingBox = new Rectangle(_resource.Resources[index].ImageOffset.ToPoint(), _resource.Resources[index].ImageSize.ToSize());
       pbPreview.Offset = new Primrose.Primitives.ValueTypes.int2(); // _resource.Resources[index].ImageOffset;
-      pbPreview.Preview = _resource.Resources[index].GetBitmap(ref pal, ref _housePalette, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
+      pbPreview.Preview = _resource.Resources[index].GetBitmap(BasePalette, HousePaletteFile, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
     }
 
-    private void Save(ref IPalette palette, int index, string format, bool transparency, int houseIndex)
+    private void Save(Palette_18Bit palette, int index, string format, bool transparency, int houseIndex)
     {
-      Image img = _resource.Resources[index].GetBitmap(ref palette, ref _housePalette, false, transparency, houseIndex);
+      Image img = _resource.Resources[index].GetBitmap(palette, HousePaletteFile, false, transparency, houseIndex);
       img.Save(format.F(index));
     }
 
@@ -92,7 +88,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
         string rootDir = Path.GetDirectoryName(rpath);
         string relImagePathFmt = @"images\img_{0:0000}.png";
         string relPalettePathFmt = @"palettes\pal_{0:0000}.bin";
-        IPalette pal = _palette.Palette;
+        Palette_18Bit pal = BasePalette.Clone();
         Directory.CreateDirectory(rootDir);
         Directory.CreateDirectory(Path.Combine(rootDir, "images"));
         Directory.CreateDirectory(Path.Combine(rootDir, "palettes"));
@@ -114,13 +110,13 @@ namespace Dune2000.Editor.UI.Editors.Resources
         {
           if (exportAll)
           {
-            rfile.Export(ref pal, _resource.Resources, rootDir, relImagePathFmt, relPalettePathFmt, p);
+            rfile.Export(pal, _resource.Resources, rootDir, relImagePathFmt, relPalettePathFmt, p);
           }
           else
           {
             foreach (int index in selected.ToArray())
             {
-              rfile.Export(ref pal, index, _resource.Resources[index], rootDir, relImagePathFmt.F(index), relPalettePathFmt.F(index), p);
+              rfile.Export(pal, index, _resource.Resources[index], rootDir, relImagePathFmt.F(index), relPalettePathFmt.F(index), p);
             }
           }
           rfile.WriteToFile(rpath);

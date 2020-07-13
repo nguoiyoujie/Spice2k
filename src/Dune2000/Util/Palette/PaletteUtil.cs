@@ -8,7 +8,7 @@ namespace Dune2000.Util.Palette
   {
     private readonly static byte[] UniqueIndices = new byte[] { 0,1,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255 };
 
-    public static bool HasNonUniqueSpecialIndices(ref IPalette palette, out byte[] affected)
+    public static bool HasNonUniqueSpecialIndices(this IPalette palette, out byte[] affected)
     {
       List<byte> clist = new List<byte>();
       foreach (byte b in UniqueIndices)
@@ -23,7 +23,7 @@ namespace Dune2000.Util.Palette
       return affected.Length > 0;
     }
 
-    public static bool MakeSpecialIndicesUnique(ref IPalette palette, out byte[] changed)
+    public static bool MakeSpecialIndicesUnique(this IPalette palette, out byte[] changed)
     {
       List<byte> clist = new List<byte>();
       foreach (byte b in UniqueIndices)
@@ -33,6 +33,7 @@ namespace Dune2000.Util.Palette
         {
           int argb = c.ToArgb();
           argb++;
+          palette.Set(b, Color.FromArgb(255, Color.FromArgb(argb)));
           c = palette.Get(b);
           while (palette.Count(c) > 1) // include self
           {

@@ -23,16 +23,16 @@ namespace Dune2000.Extensions.FileFormats.INI
     [INISubSectionRegistry(Section = "Entries", SubsectionPrefix = "Entry_", Required = true)]
     public Registry<string, ResourceExportEntry> Entries = new Registry<string, ResourceExportEntry>();
 
-    public void Export(ref IPalette basePalette, List<ResourceElement> elementList, string rootDir, string imagePathFormat, string palettePathFormat, IProgress<int> progress = null)
+    public void Export(Palette_18Bit basePalette, List<ResourceElement> elementList, string rootDir, string imagePathFormat, string palettePathFormat, IProgress<int> progress = null)
     {
       ResourceElement[] safeList = elementList.ToArray();
       for (int i = 0; i < safeList.Length; i++)
       {
-        Export(ref basePalette, i, safeList[i], rootDir, imagePathFormat.F(i), palettePathFormat.F(i), progress);
+        Export(basePalette, i, safeList[i], rootDir, imagePathFormat.F(i), palettePathFormat.F(i), progress);
       }
     }
 
-    public void Export(ref IPalette basePalette, int key, ResourceElement element, string rootDir, string imagePath, string palettePath, IProgress<int> progress = null)
+    public void Export(Palette_18Bit basePalette, int key, ResourceElement element, string rootDir, string imagePath, string palettePath, IProgress<int> progress = null)
     {
       if (element.PaletteType == PaletteType.EMPTY_ENTRY) { return; }
 
@@ -55,14 +55,13 @@ namespace Dune2000.Extensions.FileFormats.INI
 
       HousePaletteFile dummy = new HousePaletteFile();
       // modify palette to remove unique colors.
-      IPalette opal = element.Palette;
-      IPalette modpal = new Palette_15Bit();
-      element.Palette.CopyTo(ref modpal);
-      PaletteUtil.MakeSpecialIndicesUnique(ref modpal, out _);
-      element.Palette = (Palette_15Bit)modpal;
+      Palette_15Bit opal = element.Palette?.Clone();
+      if (element.Palette != null)
+      {
+        element.Palette.MakeSpecialIndicesUnique(out _);
+      }
 
-
-      Bitmap image = element.GetBitmap(ref basePalette, ref dummy, false, false, -1);
+      Bitmap image = element.GetBitmap(basePalette, dummy, false, false, -1);
 
       if (!Path.IsPathRooted(imagePath)) { imagePath = Path.Combine(rootDir, imagePath); }
       Directory.CreateDirectory(Path.GetDirectoryName(imagePath));
@@ -72,9 +71,7 @@ namespace Dune2000.Extensions.FileFormats.INI
       if (expentry.UseOwnPalette ?? false)
       {
         PaletteFile palfile = new PaletteFile();
-        IPalette pal = palfile.Palette;
-        element.Palette.CopyTo(ref pal);
-        palfile.Palette = (Palette_18Bit)pal;
+        palfile.Palette.Import(element.Palette);
         if (!Path.IsPathRooted(palettePath)) { palettePath = Path.Combine(rootDir, palettePath); }
         Directory.CreateDirectory(Path.GetDirectoryName(palettePath));
         palfile.WriteToFile(palettePath);
@@ -82,14 +79,14 @@ namespace Dune2000.Extensions.FileFormats.INI
       }
 
       // restore the original palette
-      element.Palette = (Palette_15Bit)opal;
+      element.Palette = opal;
 
       Entries.Put(key.ToString(), expentry);
       progress?.Report(key);
     }
 
     /// <summary>Imports, replacing existing data only if there is new data</summary>
-    public void ImportMerge(List<ResourceElement> srcResourceList, ref IPalette basePalette, string rootDir, IProgress<int> progress = null)
+    public void ImportMerge(List<ResourceElement> srcResourceList, Palette_18Bit basePalette, string rootDir, IProgress<int> progress = null)
     {
       // create seperate list
       List<ResourceElement> workingList = new List<ResourceElement>(EntryCount);
@@ -97,13 +94,13 @@ namespace Dune2000.Extensions.FileFormats.INI
       {
         workingList.Add((i < srcResourceList.Count) ? srcResourceList[i] : new ResourceElement());
       }
-      Import(ref workingList, ref basePalette, rootDir, progress);
+      Import(ref workingList, basePalette, rootDir, progress);
       srcResourceList.Clear();
       srcResourceList.AddRange(workingList);
     }
 
     /// <summary>Wipes the source resource list, and imports</summary>
-    public void ImportReplace(List<ResourceElement> srcResourceList, ref IPalette basePalette, string rootDir, IProgress<int> progress = null)
+    public void ImportReplace(List<ResourceElement> srcResourceList, Palette_18Bit basePalette, string rootDir, IProgress<int> progress = null)
     {
       // create seperate list
       List<ResourceElement> workingList = new List<ResourceElement>(EntryCount);
@@ -111,12 +108,12 @@ namespace Dune2000.Extensions.FileFormats.INI
       {
         workingList.Add(new ResourceElement());
       }
-      Import(ref workingList, ref basePalette, rootDir, progress);
+      Import(ref workingList, basePalette, rootDir, progress);
       srcResourceList.Clear();
       srcResourceList.AddRange(workingList);
     }
 
-    private void Import(ref List<ResourceElement> workingList, ref IPalette basePalette, string rootDir, IProgress<int> progress = null)
+    private void Import(ref List<ResourceElement> workingList, Palette_18Bit basePalette, string rootDir, IProgress<int> progress = null)
     {
       foreach (string key in Entries.GetKeys())
       {
@@ -131,11 +128,7 @@ namespace Dune2000.Extensions.FileFormats.INI
         {
           PaletteFile palfile = new PaletteFile();
           palfile.ReadFromFile(Path.Combine(rootDir, entry.PalettePath));
-          palfile.Palette.CopyTo(ref pal);
-          if (PaletteUtil.HasNonUniqueSpecialIndices(ref pal, out _))
-          {
-
-          }
+          pal = palfile.Palette;
         }
 
         if (entry.UsePalette)
@@ -152,12 +145,6 @@ namespace Dune2000.Extensions.FileFormats.INI
         workingList[ikey].Alignment = entry.Alignment;
         workingList[ikey].ImageHandle = entry.ImageHandle;
         workingList[ikey].PaletteHandle = entry.PaletteHandle;
-
-        IPalette p = workingList[ikey].Palette;
-        if (PaletteUtil.HasNonUniqueSpecialIndices(ref p, out _))
-        {
-
-        }
 
         progress?.Report(ikey);
       }

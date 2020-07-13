@@ -336,12 +336,17 @@ namespace Dune2000.Editor.UI.Editors.Bin.Colours
         {
           Palette_15Bit[] palnew = new Palette_15Bit[_pals.Length + 1];
           _pals.CopyTo(palnew, 0);
+          palnew[_pals.Length] = new Palette_15Bit();
           _pals = palnew;
-
-          _currPalette++;
-          RedrawPalette();
+        }
+        else
+        {
+          return;
         }
       }
+
+      _currPalette++;
+      RedrawPalette();
     }
   }
 }

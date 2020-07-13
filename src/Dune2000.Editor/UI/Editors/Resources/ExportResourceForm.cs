@@ -30,46 +30,42 @@ namespace Dune2000.Editor.UI.Editors.Resources
       UpdatePreviewFileName();
     }
 
-    public ResourceFile Resource { get { return _resource; } set { if (_resource != value) { _resource = value; UpdateItems(); } } }
-    public PaletteFile Palette { get { return _palette; } set { _palette = value; } }
-    public HousePaletteFile HousePalette { get { return _housePalette; } set { _housePalette = value; } }
+    public ResourceFile ResourceFile { get { return _resourceFile; } set { if (_resourceFile != value) { _resourceFile = value; UpdateItems(); } } }
+    public Palette_18Bit BasePalette { get; set; }
+    public HousePaletteFile HousePaletteFile { get; set; }
 
-    private ResourceFile _resource;
-    private PaletteFile _palette;
-    private HousePaletteFile _housePalette;
+    private ResourceFile _resourceFile;
 
     private void UpdateItems()
     {
-      if (_resource == null) { return; }
+      if (_resourceFile == null) { return; }
 
       lboxItems.Items.Clear();
       List<string> list = new List<string>();
-      for (int i = 0; i < _resource.Resources.Count; i++)
+      for (int i = 0; i < _resourceFile.Resources.Count; i++)
       {
         list.Add(GetListboxEntryText(i));
       }
       lboxItems.Items.AddRange(list.ToArray());
     }
 
-    private string GetListboxEntryText(int index) { return "{0}\t{1}x{2}".F(index, _resource.Resources[index].ImageWidth, _resource.Resources[index].ImageHeight); }
+    private string GetListboxEntryText(int index) { return "{0}\t{1}x{2}".F(index, _resourceFile.Resources[index].ImageWidth, _resourceFile.Resources[index].ImageHeight); }
 
     private void RedrawImage()
     {
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { return; }
 
       pbPreview.Preview?.Dispose();
-      IPalette pal = _palette.Palette;
-
-      pbPreview.BoundingBox = new Rectangle(_resource.Resources[index].ImageOffset.ToPoint(), _resource.Resources[index].ImageSize.ToSize());
+      pbPreview.BoundingBox = new Rectangle(_resourceFile.Resources[index].ImageOffset.ToPoint(), _resourceFile.Resources[index].ImageSize.ToSize());
       pbPreview.Offset = new Primrose.Primitives.ValueTypes.int2(); // _resource.Resources[index].ImageOffset;
-      pbPreview.Preview = _resource.Resources[index].GetBitmap(ref pal, ref _housePalette, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
+      pbPreview.Preview = _resourceFile.Resources[index].GetBitmap(BasePalette, HousePaletteFile, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
     }
 
-    private void Save(ref IPalette palette, int index, string format, bool transparency, int houseIndex)
+    private void Save(Palette_18Bit palette, int index, string format, bool transparency, int houseIndex)
     {
-      Image img = _resource.Resources[index].GetBitmap(ref palette, ref _housePalette, false, transparency, houseIndex);
+      Image img = _resourceFile.Resources[index].GetBitmap(palette, HousePaletteFile, false, transparency, houseIndex);
       img.Save(format.F(index));
     }
 
@@ -90,29 +86,21 @@ namespace Dune2000.Editor.UI.Editors.Resources
         bool transparency = cbTransparency.Checked;
         int houseIndex = cboxHousePal.Checked ? cbHouse.SelectedIndex : -1;
         Directory.CreateDirectory(tbDirectory.Text);
-        IPalette pal = _palette.Palette;
-
-        if (PaletteUtil.HasNonUniqueSpecialIndices(ref pal, out byte[] affected))
-        {
-          MessageBox.Show("The palette has some special indices that are mapped to the same colors as other indices. This may give incorrect results when re-importing.\n\n" +
-                          "Affected indices: {0}".F(string.Join(",", affected)));
-        }
-
         Task t = Task.Factory.StartNew(() =>
         {
           string format = Path.Combine(tbDirectory.Text, tbFormat.Text);
           if (exportAll)
           {
-            for (int i = 0; i < _resource.Resources.Count; i++)
+            for (int i = 0; i < _resourceFile.Resources.Count; i++)
             {
-              Save(ref pal, i, format, transparency, houseIndex);
+              Save(BasePalette, i, format, transparency, houseIndex);
             }
           }
           else
           {
             foreach (int index in selected.ToArray())
             {
-              Save(ref pal, index, format, transparency, houseIndex);
+              Save(BasePalette, index, format, transparency, houseIndex);
             }
           }
         });
@@ -162,8 +150,8 @@ namespace Dune2000.Editor.UI.Editors.Resources
     private void UpdatePreviewFileName()
     { 
       int index = lboxItems.SelectedIndex;
-      if (_resource == null) { return; }
-      if (index < 0 || index >= _resource.Resources.Count) { return; }
+      if (_resourceFile == null) { return; }
+      if (index < 0 || index >= _resourceFile.Resources.Count) { return; }
 
       try
       {

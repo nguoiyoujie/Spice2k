@@ -9,10 +9,9 @@ namespace Dune2000.Structs.Pal
   /// A palette with 256 indices, each mapped to a 24-bit color (True Color: https://en.wikipedia.org/wiki/Color_depth#True_color_(24-bit))
   /// This version places RGB values into three bytes, with all 8 bits used per color byte (RRRRRRRRGGGGGGGGBBBBBBBB).
   /// </summary>
-  [StructLayout(LayoutKind.Sequential, Size = 0x300)]
-  public unsafe struct Palette_24Bit : IPalette, IEquatable<Palette_24Bit>
+  public class Palette_24Bit : IPalette, IEquatable<Palette_24Bit>
   {
-    private fixed byte _raw[0x300];
+    private readonly byte[] _raw = new byte[0x300];
     public byte[] Data
     {
       get
@@ -36,21 +35,13 @@ namespace Dune2000.Structs.Pal
 
     public void Read(BinaryReader reader)
     {
-      int count = Marshal.SizeOf(typeof(Palette_24Bit));
-      byte[] readBuffer = reader.ReadBytes(count);
-      GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
-      this = (Palette_24Bit)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Palette_24Bit));
-      handle.Free();
+      byte[] readBuffer = reader.ReadBytes(0x300);
+      readBuffer.CopyTo(_raw, 0);
     }
 
     public void Write(BinaryWriter writer)
     {
-      int count = Marshal.SizeOf(typeof(Palette_24Bit));
-      byte[] writeBuffer = new byte[count];
-      GCHandle handle = GCHandle.Alloc(writeBuffer, GCHandleType.Pinned);
-      Marshal.StructureToPtr(this, handle.AddrOfPinnedObject(), true);
-      writer.Write(writeBuffer, 0, writeBuffer.Length);
-      handle.Free();
+      writer.Write(_raw, 0, 0x300);
     }
 
     public Color Get(int index)
@@ -142,11 +133,11 @@ namespace Dune2000.Structs.Pal
       return closest;
     }
 
-    public void CopyTo(ref IPalette target)
+    public void Import(IPalette source)
     {
       for (int i = 0; i < 256; i++)
       {
-        target.Set(i, Get(i));
+        Set(i, source.Get(i));
       }
     }
 
@@ -174,5 +165,13 @@ namespace Dune2000.Structs.Pal
           ret++;
       }
       return ret;
-    } }
+    }
+
+    public Palette_24Bit Clone()
+    {
+      Palette_24Bit ret = new Palette_24Bit();
+      Buffer.BlockCopy(_raw, 0, ret._raw, 0, Buffer.ByteLength(_raw));
+      return ret;
+    }
+  }
 }

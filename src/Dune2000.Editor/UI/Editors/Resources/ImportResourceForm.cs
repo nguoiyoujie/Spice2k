@@ -25,14 +25,12 @@ namespace Dune2000.Editor.UI.Editors.Resources
     //public Bitmap Bitmap { get { return _resource; } set { if (_resource != value) { _resource = value; } } }
     public ResourceElement ResourceElement { get; private set; } = new ResourceElement();
 
-    public IPalette UserPalette { get; set; }
-    public IPalette BasePalette { get { return _basePalette; } set { _basePalette = value; } }
+    public Palette_18Bit UserPalette { get; set; }
+    public Palette_18Bit BasePalette { get; set; }
     public IPalette PrevPalette { get; set; }
-    public HousePaletteFile HousePalette { get { return _housePalette; } set { _housePalette = value; } }
+    public HousePaletteFile HousePaletteFile { get; set; }
 
     private Bitmap _bitmap;
-    private IPalette _basePalette;
-    private HousePaletteFile _housePalette;
     private PaletteChoice _choice;
 
     protected enum PaletteChoice { USER, BASE, EXISTING }
@@ -42,18 +40,16 @@ namespace Dune2000.Editor.UI.Editors.Resources
       if (_bitmap == null) { return; }
 
       pbPreview.Preview?.Dispose();
-      IPalette bpalClone = _basePalette;
-
       pbPreview.BoundingBox = new Rectangle(0, 0, _bitmap.Width, _bitmap.Height);
       pbPreview.Offset = new Primrose.Primitives.ValueTypes.int2();
-      pbPreview.Preview = ResourceElement.GetBitmap(ref bpalClone, ref _housePalette, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
+      pbPreview.Preview = ResourceElement.GetBitmap(BasePalette, HousePaletteFile, false, cbTransparency.Checked, cboxHousePal.Checked ? cbHouse.SelectedIndex : -1);
 
       if (cb8Bit.Checked)
       {
         switch (_choice)
         {
           case PaletteChoice.BASE:
-            pbPalette.Palette = _basePalette;
+            pbPalette.Palette = BasePalette;
             break;
 
           case PaletteChoice.USER:
@@ -105,7 +101,7 @@ namespace Dune2000.Editor.UI.Editors.Resources
         switch (_choice)
         {
           case PaletteChoice.BASE:
-            ResourceElement.ImportImageDataAs8Bit(_bitmap, _basePalette, true, out _);
+            ResourceElement.ImportImageDataAs8Bit(_bitmap, BasePalette, true, out _);
             break;
 
           case PaletteChoice.USER:

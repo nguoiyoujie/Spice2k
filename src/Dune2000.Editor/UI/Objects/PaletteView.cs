@@ -47,8 +47,6 @@ namespace Dune2000.Editor.UI.Objects
 			pe.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 			pe.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
 
-
-
 			for (int y = 0; y < Dimensions.y; y++)
 				for (int x = 0; x < Dimensions.x; x++)
 				{

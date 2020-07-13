@@ -10,16 +10,15 @@ namespace Dune2000.Structs.Pal
   /// A palette with 256 indices, each mapped to a 15-bit color (High Color: https://en.wikipedia.org/wiki/High_color)
   /// Each color is stored in a 16-bit space, in this format XRRRRRGGGGGBBBBB.
   /// </summary>
-  [StructLayout(LayoutKind.Sequential, Size = 0x200)]
-  public unsafe struct Palette_15Bit : IPalette, IEquatable<Palette_15Bit>
+  public class Palette_15Bit : IPalette, IEquatable<Palette_15Bit>
   {
-    private fixed ushort _raw[256];
+    private readonly ushort[] _raw = new ushort[0x100];
     public ushort[] Data
     {
       get
       {
-        ushort[] ret = new ushort[256];
-        for (int i = 0; i < 256; i++)
+        ushort[] ret = new ushort[0x100];
+        for (int i = 0; i < 0x100; i++)
         {
           ret[i] = _raw[i];
         }
@@ -27,59 +26,46 @@ namespace Dune2000.Structs.Pal
       }
       set
       {
-        if (value.Length > 256) { throw new InvalidDataException("Palette only accepts an array of up to 256 elements!"); }
+        if (value.Length > 0x100) { throw new InvalidDataException("Palette only accepts an array of up to 256 elements!"); }
         for (int i = 0; i < value.Length; i++)
         {
           _raw[i] = value[i];
         }
 
-        for (int i = value.Length; i < 256; i++)
+        for (int i = value.Length; i < 0x100; i++)
         {
           _raw[i] = 0;
         }
       }
     }
 
-    public int Read(BinaryReader reader, int maxLength)
-    {
-      int count = Marshal.SizeOf(typeof(Palette_15Bit));
-      int len = count.Min(maxLength);
-      byte[] readBuffer = new byte[count];
-      reader.ReadBytes(len).CopyTo(readBuffer, 0);
-      GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
-      this = (Palette_15Bit)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Palette_15Bit));
-      handle.Free();
-      return len;
-    }
-
     public void Read(BinaryReader reader)
     {
-      int count = Marshal.SizeOf(typeof(Palette_15Bit));
-      byte[] readBuffer = reader.ReadBytes(count);
-      GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
-      this = (Palette_15Bit)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Palette_15Bit));
-      handle.Free();
+      byte[] readBuffer = reader.ReadBytes(0x200);
+      Buffer.BlockCopy(readBuffer, 0, _raw, 0, 0x200);
     }
 
     public void Write(BinaryWriter writer)
     {
-      int count = Marshal.SizeOf(typeof(Palette_15Bit));
-      byte[] writeBuffer = new byte[count];
-      GCHandle handle = GCHandle.Alloc(writeBuffer, GCHandleType.Pinned);
-      Marshal.StructureToPtr(this, handle.AddrOfPinnedObject(), true);
-      writer.Write(writeBuffer, 0, writeBuffer.Length);
-      handle.Free();
+      byte[] writeBuffer = new byte[0x200];
+      Buffer.BlockCopy(_raw, 0, writeBuffer, 0, 0x200);
+      writer.Write(writeBuffer);
+    }
+
+    public int Read(BinaryReader reader, int maxLength)
+    {
+      int len = 0x200.Min(maxLength);
+      byte[] readBuffer = reader.ReadBytes(len);
+      Buffer.BlockCopy(readBuffer, 0, _raw, 0, len);
+      return len;
     }
 
     public int Write(BinaryWriter writer, int maxLength)
     {
-      int count = Marshal.SizeOf(typeof(Palette_15Bit));
-      byte[] writeBuffer = new byte[count];
-      GCHandle handle = GCHandle.Alloc(writeBuffer, GCHandleType.Pinned);
-      Marshal.StructureToPtr(this, handle.AddrOfPinnedObject(), true);
-      int len = writeBuffer.Length.Min(maxLength);
-      writer.Write(writeBuffer, 0, len);
-      handle.Free();
+      int len = 0x200.Min(maxLength);
+      byte[] writeBuffer = new byte[len];
+      Buffer.BlockCopy(_raw, 0, writeBuffer, 0, len);
+      writer.Write(writeBuffer);
       return len;
     }
 
@@ -107,11 +93,16 @@ namespace Dune2000.Structs.Pal
 
     public static ushort ConvertColor(Color colour)
     {
-      int r = (int)(colour.R / 255f * 31f) << 10;
-      int g = (int)(colour.G / 255f * 31f) << 5;
-      int b = (int)(colour.B / 255f * 31f);
+      int r = Round(colour.R / 255f * 31f) << 10;
+      int g = Round(colour.G / 255f * 31f) << 5;
+      int b = Round(colour.B / 255f * 31f);
       int value = r | g | b;
       return Convert.ToUInt16(value);
+    }
+
+    private static int Round(float value)
+    {
+      return (int)value + ((value % 1 >= 0.5f) ?  1 : 0);
     }
 
     public bool Equals(Palette_15Bit other)
@@ -188,11 +179,11 @@ namespace Dune2000.Structs.Pal
       return closest;
     }
 
-    public void CopyTo(ref IPalette target)
+    public void Import(IPalette source)
     {
       for (int i = 0; i < 256; i++)
       {
-        target.Set(i, Get(i));
+        Set(i, source.Get(i));
       }
     }
 
@@ -219,6 +210,13 @@ namespace Dune2000.Structs.Pal
         if (Get(i) == color)
           ret++;
       }
+      return ret;
+    }
+
+    public Palette_15Bit Clone()
+    {
+      Palette_15Bit ret = new Palette_15Bit();
+      Buffer.BlockCopy(_raw, 0, ret._raw, 0, Buffer.ByteLength(_raw));
       return ret;
     }
   }

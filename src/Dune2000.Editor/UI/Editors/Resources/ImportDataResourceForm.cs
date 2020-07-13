@@ -17,11 +17,10 @@ namespace Dune2000.Editor.UI.Editors.Resources
       InitializeComponent();
     }
 
-    public ResourceFile Resource { get { return _resource; } set { if (_resource != value) { _resource = value; } } }
-    public PaletteFile Palette { get { return _palette; } set { _palette = value; } }
+    public ResourceFile ResourceFile { get { return _resourceFile; } set { if (_resourceFile != value) { _resourceFile = value; } } }
+    public Palette_18Bit BasePalette { get; set; }
 
-    private ResourceFile _resource;
-    private PaletteFile _palette;
+    private ResourceFile _resourceFile;
 
     private async void bOK_Click(object sender, System.EventArgs e)
     {
@@ -45,11 +44,9 @@ namespace Dune2000.Editor.UI.Editors.Resources
 
       try
       {
-        if (rfile.EntryCount < _resource.Resources.Count)
+        if (rfile.EntryCount < _resourceFile.Resources.Count)
         {
-          if (MessageBox.Show("The entry count declared in the import data is {0}, but the current resource file has {1} entries.\n" +
-                              "If you continue, the resource file will be truncated. Entries above {0:0000} will be cleared.\n" +
-                              "Are you sure you want to proceed?".F(rfile.EntryCount, _resource.Resources.Count)
+          if (MessageBox.Show("The entry count declared in the import data is {0}, but the current resource file has {1} entries.\nIf you continue, the resource file will be truncated. Entries above {0:0000} will be cleared.\nAre you sure you want to proceed?".F(rfile.EntryCount, _resourceFile.Resources.Count)
                             , "Dune 2000 Editor"
                             , MessageBoxButtons.YesNo)
                           != DialogResult.Yes)
@@ -68,16 +65,16 @@ namespace Dune2000.Editor.UI.Editors.Resources
           lblProgress.Text = "{0} / {1}".F(id, rfile.EntryCount); 
         };
 
-        IPalette pal = _palette.Palette;
+        Palette_18Bit pal = BasePalette.Clone();
         await Task.Factory.StartNew(() =>
         {
           if (merge)
           {
-            rfile.ImportMerge(_resource.Resources, ref pal, rootDir, p);
+            rfile.ImportMerge(_resourceFile.Resources, pal, rootDir, p);
           }
           else
           {
-            rfile.ImportReplace(_resource.Resources, ref pal, rootDir, p);
+            rfile.ImportReplace(_resourceFile.Resources, pal, rootDir, p);
           }
         });
         //t.Wait();

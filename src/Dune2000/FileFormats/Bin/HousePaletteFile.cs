@@ -9,10 +9,10 @@ namespace Dune2000.FileFormats.Mis
   // stores 16 colors each of the 8 (or more) houses
   // Has the property to replace the last 16 entries of the normal palette (240-255)
   // Supports a variable size, in multiples of 16 houses.
-  public struct HousePaletteFile : IFile
+  public class HousePaletteFile : IFile
   {
     private int _houses;
-    private Palette_15Bit[] _palettes;
+    private Palette_15Bit[] _palettes = new Palette_15Bit[0];
 
     public int Houses { get { return _houses; } set { if (_houses < value) { _houses = value; Resize(); } } }
 
@@ -22,8 +22,7 @@ namespace Dune2000.FileFormats.Mis
       {
         int bytesToRead = (int)fs.Length;
         Houses = (int)((fs.Length - 1) / 32 + 1); // 16 * 2 bytes per color
-        //int sets = (int)((fs.Length - 1) / 256 + 1);
-        //_palettes = new Palette_15Bit[sets];
+        // Resize takes care of the initialization of _palettes array
         using (BinaryReader reader = new BinaryReader(fs))
         {
           for (int i = 0; i < _palettes.Length; i++)
@@ -57,6 +56,10 @@ namespace Dune2000.FileFormats.Mis
       if (_palettes == null || sets > _palettes.Length)
       {
         Palette_15Bit[] list = new Palette_15Bit[sets];
+        for (int i = 0; i < list.Length; i++)
+        {
+          list[i] = new Palette_15Bit();
+        }
         _palettes?.CopyTo(list, 0);
         _palettes = list;
       }

@@ -4,9 +4,9 @@ using System.IO;
 
 namespace Dune2000.FileFormats.Mis
 {
-  public struct PaletteFile : IFile
+  public class PaletteFile : IFile
   {
-    public Palette_18Bit Palette;
+    public Palette_18Bit Palette = new Palette_18Bit();
 
     public void ReadFromFile(string filePath)
     {

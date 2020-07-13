@@ -162,7 +162,6 @@
     <Compile Include="Structs\Mis\MisDiplomacy.cs" />
     <Compile Include="FileFormats\Mis\MisFile.cs" />
     <Compile Include="Structs\Pal\IPalette.cs" />
-    <Compile Include="Structs\Pal\PaletteCommon.cs" />
     <Compile Include="Structs\Pal\Palette_18Bit.cs" />
     <Compile Include="Structs\Pal\Palette_24Bit.cs" />
     <Compile Include="Structs\Pal\Palette_15Bit.cs" />

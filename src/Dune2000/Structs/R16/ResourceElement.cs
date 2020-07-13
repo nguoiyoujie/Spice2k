@@ -83,7 +83,7 @@ namespace Dune2000.Structs.R16
     // for resources that include their own palette
     public int Memory; // function unknown (can be 0)
     public int PaletteHandle2; // function unknown, must not be 0. If zero, Game Error: SetTImageToResource, Invalid Palette
-    public Palette_15Bit Palette;
+    public Palette_15Bit Palette = new Palette_15Bit();
 
     public bool IsEmpty { get { return PaletteType == PaletteType.EMPTY_ENTRY; } }
     public int2 ImageSize { get { return new int2(ImageWidth, ImageHeight); } set { ImageWidth = value.x; ImageHeight = value.y; } }
@@ -151,11 +151,9 @@ namespace Dune2000.Structs.R16
               break;
           }
         }
-        Palette = currentPalette;
+        Palette = currentPalette.Clone();
       }
     }
-
-
 
     public void Write(BinaryWriter writer, ref Palette_15Bit prevPalette)
     {
@@ -204,7 +202,7 @@ namespace Dune2000.Structs.R16
       }
     }
 
-    public Bitmap GetBitmap(ref IPalette basePalette, ref HousePaletteFile housePalette, bool includeFrame, bool makeTransparent, int houseIndex)
+    public Bitmap GetBitmap(Palette_18Bit basePalette, HousePaletteFile housePalette, bool includeFrame, bool makeTransparent, int houseIndex)
     {
       if (PaletteType == PaletteType.EMPTY_ENTRY)
       {
@@ -217,7 +215,7 @@ namespace Dune2000.Structs.R16
       Bitmap bmp = new Bitmap(ImageWidth, ImageHeight);
       if (BitsPerPixel == 8)
       {
-        IPalette pal = (PaletteHandle == 0) ? basePalette : Palette;
+        IPalette pal = (PaletteHandle == 0) ? (IPalette)basePalette.Clone() : Palette.Clone();
         if (houseIndex != -1)
         {
           pal = housePalette.Merge(pal, houseIndex);
@@ -338,9 +336,7 @@ namespace Dune2000.Structs.R16
 
       if (!isBasePalette)
       {
-        IPalette p = Palette;
-        palette.CopyTo(ref p);
-        Palette = (Palette_15Bit)p;
+        Palette.Import(palette);
       }
     }
   }
