@@ -75,11 +75,15 @@ The UI editor currently includes editing capabilities for the following resource
 
 [Link](editor/binPalette.md)
 
+[File Format](spec/binPalette.md)
+
  - Palette.bin
 
 **House Palette Binaries** 
 
 [Link](editor/binColours.md)
+
+[File Format](spec/binColours.md)
 
  - Colours.bin
 
