@@ -11,7 +11,7 @@ Description  | Maps a color name to a RGB color
 
 
 ---
-The Colours UI binary file constains a variable number of color entries of arbitary length.
+The Colours UI binary file constains a variable number of color entries in RGB format. Alpha appears not to be supported in this format.
 ### File Data
 
 Offset(h) | Size(h) | Size(d) | Data Type | Description
